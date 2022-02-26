@@ -1,23 +1,49 @@
 import type { NextPage } from 'next';
 import RoundedBtn from '@components/roundedBtn';
+import { useForm } from 'react-hook-form';
+import Input from '@components/input';
+import { useState } from 'react';
+
+type LoginForm = {
+  email: string;
+};
 
 const Login: NextPage = () => {
+  const [submitting, setSubmitting] = useState(false);
+  const { register, handleSubmit } = useForm<LoginForm>();
+
+  const onValid = (data: LoginForm) => {
+    setSubmitting(true);
+    fetch('/api/users/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      setSubmitting(false);
+    });
+  };
+
   return (
-    <div className='mx-auto mt-20  max-w-xl px-4 text-stone-800'>
+    <div className='mx-auto mt-20 max-w-xl px-4 text-stone-800'>
       <h3 className='text-center text-3xl font-bold'>Market</h3>
       <div className='space-y-8 pt-10'>
         <div className='flex'>
           <span className='text-xs'>로그인 &nbsp; | &nbsp;회원가입</span>
         </div>
-        <form className='flex flex-col'>
-          <label className='pb-1 text-sm'>E-mail</label>
-          <input
+        <form onSubmit={handleSubmit(onValid)} className='flex flex-col'>
+          <Input
+            register={register('email', { required: true })}
+            name='email'
+            label='E-mail'
             type='email'
-            className='w-full rounded-full border border-stone-300 p-2 placeholder-gray-400 shadow-sm'
+            kind='text'
             required
           />
-          <RoundedBtn text='로그인' />
+          <RoundedBtn text={submitting ? 'Loading...' : '로그인'} />
         </form>
+
         <div className='flex items-center justify-center space-x-14'>
           <button className='hover:opacity-90'>
             <svg
