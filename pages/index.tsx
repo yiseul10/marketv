@@ -2,8 +2,11 @@ import type { NextPage } from 'next';
 import CircleBtn from '@components/circleBtn';
 import Items from '@components/items';
 import Layout from '@components/layout';
+import useUser from '@libs/client/useUser';
 
 const Home: NextPage = () => {
+  const { user, isLoading } = useUser();
+
   return (
     <Layout title='홈'>
       <main>
