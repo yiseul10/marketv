@@ -2,8 +2,9 @@ import type { NextPage } from 'next';
 import RoundedBtn from '@components/roundedBtn';
 import { useForm } from 'react-hook-form';
 import Input from '@components/input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useMutation from '@libs/client/useMutation';
+import { useRouter } from 'next/router';
 
 type LoginForm = {
   email: string;
@@ -33,6 +34,12 @@ const Login: NextPage = () => {
     if (tokenLoading) return;
     confirmToken(validToken);
   };
+  const router = useRouter();
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push('/');
+    }
+  }, [tokenData, router]);
 
   return (
     <div className='mx-auto mt-20 max-w-xl px-4 text-stone-800'>
