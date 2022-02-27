@@ -19,7 +19,7 @@ export default function Input({
 }: Props) {
   return (
     <div>
-      <label className='text-sm font-medium' htmlFor={name}>
+      <label className='text-sm' htmlFor={name}>
         {label}
       </label>
       {kind === 'price' ? (

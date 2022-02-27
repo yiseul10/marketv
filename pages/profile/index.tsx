@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Avatar } from '@components/avatar';
 import Layout from '@components/layout';
-import { cls } from '@libs/utils';
+import { cls } from '@libs/client/utils';
 
 const Profile: NextPage = () => {
   const [menu, setMenu] = useState<'나의판매' | '나의구매' | '관심목록'>(
