@@ -4,7 +4,10 @@ import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const { id } = req.query;
+  const {
+    query: { id },
+    session: { user }
+  } = req;
   const product = await client.product.findUnique({
     where: {
       id: +id.toString()
@@ -25,6 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       contains: word
     }
   }));
+  // OR은 빈목록을 반환한다.
   const similarItems = await client.product.findMany({
     where: {
       OR: title,
@@ -35,8 +39,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       }
     }
   });
+  const isLiked = Boolean(
+    await client.favorite.findFirst({
+      where: {
+        productId: product?.id,
+        userId: user?.id
+      },
+      select: {
+        id: true
+      }
+    })
+  );
   console.log(similarItems);
-  res.json({ ok: true, product, similarItems });
+  res.json({ ok: true, product, similarItems, isLiked });
 }
 
 export default withApiSession(withHandler({ methods: ['GET'], handler }));

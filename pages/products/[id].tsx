@@ -6,6 +6,9 @@ import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { Product, User } from '@prisma/client';
 import Link from 'next/link';
+import useMutation from '@libs/client/useMutation';
+import { cls } from '@libs/client/utils';
+import products from 'pages/api/products';
 
 interface DetailWith extends Product {
   user: User;
@@ -15,14 +18,22 @@ interface DetailProps {
   ok: boolean;
   product: DetailWith;
   similarItems: Product[];
+  isLiked: boolean;
 }
 
 const Detail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR<DetailProps>(
+  const { data, mutate } = useSWR<DetailProps>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
-  console.log(data);
+  const [toggleFav] = useMutation(`/api/products/${router.query.id}/favorite`);
+  // 데이터-유무 / 빈 객체를 넣어주어 body가 비어있는 post요청이 되도록
+  const onFavorite = () => {
+    // 데이터가 없는 상태가 될 수 있기 때문에
+    if (!data) return;
+    mutate({ ...data, isLiked: !data.isLiked }, false);
+    toggleFav({});
+  };
 
   return (
     <Layout back>
@@ -40,11 +51,20 @@ const Detail: NextPage = () => {
               <h1 className='text-3xl font-bold text-stone-900'>
                 {data?.product?.name}
               </h1>
-              <button className='text-stone-400 hover:opacity-80'>
+              <button
+                onClick={onFavorite}
+                className={
+                  data?.isLiked
+                    ? 'text-stone-900'
+                    : 'text-stone-400 hover:opacity-80'
+                }
+              >
                 <svg
                   className='h-6 w-6 '
                   xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
+                  // fill='none'
+                  // 데이터변화에 따라 움직인다.
+                  fill={data?.isLiked ? 'currentColor' : 'none'}
                   viewBox='0 0 24 24'
                   stroke='currentColor'
                   aria-hidden='true'
