@@ -18,11 +18,11 @@ export default function Items({
   id
 }: Props) {
   return (
-    <Link href={`/details/${id}`} passHref>
+    <Link href={`/products/${id}`} passHref>
       <div className='flex cursor-pointer justify-between p-4'>
-        <div className='flex space-x-4'>
+        <div className='flex space-x-4 items-center'>
           <div className='h-20 w-20 rounded-md bg-stone-400' />
-          <div className='flex flex-col pt-2'>
+          <div className='flex flex-col space-y-1'>
             <h3 className='text-sm font-medium text-stone-900'>{title}</h3>
             <span className='text-xs text-stone-500'>{details}</span>
             <span className='mt-1 text-stone-900'>{price}원</span>

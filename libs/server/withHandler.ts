@@ -1,17 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export type Response = {
+export interface Response {
   ok: boolean;
   [key: string]: any;
-};
+}
+type Methods = 'GET' | 'POST' | 'DELETE';
+
 interface PropsType {
-  method: 'GET' | 'POST' | 'DELETE';
+  methods: Methods[];
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
   isPrivate?: boolean;
 }
 
 export default function withHandler({
-  method,
+  methods,
   isPrivate = true,
   handler
 }: PropsType) {
@@ -20,7 +22,7 @@ export default function withHandler({
     req: NextApiRequest,
     res: NextApiResponse
   ): Promise<any> {
-    if (req.method !== method) {
+    if (req.method && !methods.includes(req.method as any)) {
       return res.status(405).end();
     }
     if (isPrivate && !req.session.user) {

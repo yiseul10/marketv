@@ -3,21 +3,29 @@ import CircleBtn from '@components/circleBtn';
 import Items from '@components/items';
 import Layout from '@components/layout';
 import useUser from '@libs/client/useUser';
+import useSWR from 'swr';
+import { Product } from '@prisma/client';
+
+interface ProductType {
+  ok: boolean;
+  products: Product[];
+}
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
+  const { data } = useSWR<ProductType>('/api/products');
 
   return (
     <Layout title='홈'>
       <main>
         <div className='w-full flex-col divide-y-[1px]'>
-          {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+          {data?.products?.map(product => (
             <Items
-              key={i}
-              id={i}
-              title='사과 팔아요'
-              details='맛있어용'
-              price={5000}
+              key={product.id}
+              id={product.id}
+              title={product.name}
+              details={product.desc}
+              price={product.price}
               like={2}
               comments={0}
             />

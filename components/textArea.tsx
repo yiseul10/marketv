@@ -9,16 +9,12 @@ interface Props {
 
 export function TextArea({ label, name, register, ...rest }: Props) {
   return (
-    <div>
-      {label && (
-        <label className='text-sm font-medium' htmlFor={name}>
-          {label}
-        </label>
-      )}
+    <div className='text-sm'>
+      {label && <label htmlFor={name}>{label}</label>}
       <textarea
         id={name}
-        className='w-full rounded-xl border-stone-300 text-sm'
-        rows={4}
+        className='w-full rounded-xl border border-stone-300 px-3 py-2'
+        rows={5}
         {...register}
         {...rest}
       />

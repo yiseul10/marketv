@@ -2,19 +2,34 @@ import { NextPage } from 'next';
 import { Avatar } from '@components/avatar';
 import Layout from '@components/layout';
 import RoundedBtn from '@components/roundedBtn';
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
+import Link from 'next/link';
 
 const Detail: NextPage = () => {
+  const router = useRouter();
+  const { data } = useSWR(
+    router.query.id ? `/api/products/${router.query.id}` : null
+  );
+  console.log(data);
+
   return (
     <Layout back>
       <div className='px-4'>
         <div className='h-96 bg-stone-300' />
         <div className='flex cursor-pointer items-center space-x-3 border-t border-b py-3'>
-          <Avatar name='Taem' details='판매자정보 &rarr;' />
+          <Avatar
+            name={data?.product?.user?.name}
+            userId={data?.product?.user?.id}
+            details='판매자정보 &rarr;'
+          />
         </div>
         <div>
-          <div className='mt-12 space-y-5'>
+          <div className='mt-6 space-y-5'>
             <header className='mr-5 flex justify-between'>
-              <h1 className='text-3xl font-bold text-stone-900'>title</h1>
+              <h1 className='text-3xl font-bold text-stone-900'>
+                {data?.product?.name}
+              </h1>
               <button className='text-stone-400 hover:opacity-80'>
                 <svg
                   className='h-6 w-6 '
@@ -33,19 +48,10 @@ const Detail: NextPage = () => {
                 </svg>
               </button>
             </header>
-            <span className='mt-3 block text-3xl text-stone-900'>5000원</span>
-            <p className='my-3 text-stone-700'>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum
-            </p>
+            <span className='block text-3xl text-stone-900'>
+              {data?.product?.price}원
+            </span>
+            <p className='my-3 text-stone-700'>{data?.product?.desc}</p>
             <RoundedBtn text='구매문의' />
           </div>
         </div>
