@@ -6,9 +6,15 @@ import useUser from '@libs/client/useUser';
 import useSWR from 'swr';
 import { Product } from '@prisma/client';
 
+interface LikeWith extends Product {
+  _count: {
+    favorite: number;
+  };
+}
+
 interface ProductType {
   ok: boolean;
-  products: Product[];
+  products: LikeWith[];
 }
 
 const Home: NextPage = () => {
@@ -26,7 +32,7 @@ const Home: NextPage = () => {
               title={product.name}
               details={product.desc}
               price={product.price}
-              like={2}
+              like={product._count.favorite}
               comments={0}
             />
           ))}

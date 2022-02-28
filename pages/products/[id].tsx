@@ -3,12 +3,13 @@ import { Avatar } from '@components/avatar';
 import Layout from '@components/layout';
 import RoundedBtn from '@components/roundedBtn';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import { Product, User } from '@prisma/client';
 import Link from 'next/link';
 import useMutation from '@libs/client/useMutation';
 import { cls } from '@libs/client/utils';
 import products from 'pages/api/products';
+import useUser from '@libs/client/useUser';
 
 interface DetailWith extends Product {
   user: User;
@@ -23,15 +24,15 @@ interface DetailProps {
 
 const Detail: NextPage = () => {
   const router = useRouter();
-  const { data, mutate } = useSWR<DetailProps>(
+  const { data, mutate: boundMutate } = useSWR<DetailProps>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/favorite`);
-  // 데이터-유무 / 빈 객체를 넣어주어 body가 비어있는 post요청이 되도록
   const onFavorite = () => {
     // 데이터가 없는 상태가 될 수 있기 때문에
     if (!data) return;
-    mutate({ ...data, isLiked: !data.isLiked }, false);
+    boundMutate({ ...data, isLiked: !data.isLiked }, false);
+    // 데이터-유무 / 빈 객체를 넣어주어 body가 비어있는  post요청이 되도록
     toggleFav({});
   };
 
