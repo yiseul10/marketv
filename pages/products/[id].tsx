@@ -4,11 +4,22 @@ import Layout from '@components/layout';
 import RoundedBtn from '@components/roundedBtn';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
+import { Product, User } from '@prisma/client';
 import Link from 'next/link';
+
+interface DetailWith extends Product {
+  user: User;
+}
+
+interface DetailProps {
+  ok: boolean;
+  product: DetailWith;
+  similarItems: Product[];
+}
 
 const Detail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR(
+  const { data } = useSWR<DetailProps>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   console.log(data);
@@ -20,7 +31,6 @@ const Detail: NextPage = () => {
         <div className='flex cursor-pointer items-center space-x-3 border-t border-b py-3'>
           <Avatar
             name={data?.product?.user?.name}
-            userId={data?.product?.user?.id}
             details='판매자정보 &rarr;'
           />
         </div>
@@ -57,12 +67,16 @@ const Detail: NextPage = () => {
         </div>
         <h2 className='pt-12'>다음 상품을 추천합니다.</h2>
         <div className='mt-3 grid grid-cols-2 gap-4'>
-          {[1, 2, 3, 4, 5, 6].map((_, i) => (
-            <div key={i}>
-              <div className='h-56 w-full bg-stone-300' />
-              <p className='mt-3 text-stone-700'>title</p>
-              <p className='text-sm font-medium text-stone-900'>5000원</p>
-            </div>
+          {data?.similarItems.map(product => (
+            <Link href={`/products/${product.id}`} passHref key={product.id}>
+              <div className='cursor-pointer'>
+                <div className='h-56 w-full bg-stone-300' />
+                <p className='mt-3 text-stone-700'>{product.name}</p>
+                <p className='text-sm font-medium text-stone-900'>
+                  {product.price}원
+                </p>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

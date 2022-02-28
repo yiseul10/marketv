@@ -5,10 +5,9 @@ interface Props {
   name?: string;
   details?: string;
   lg?: boolean;
-  userId?: string;
 }
 
-export function Avatar({ name, details, lg, userId }: Props) {
+export function Avatar({ name, details, lg }: Props) {
   return (
     <>
       <div
@@ -17,7 +16,7 @@ export function Avatar({ name, details, lg, userId }: Props) {
           ' rounded-full bg-stone-300'
         )}
       />
-      <Link href={`/users/profiles/${userId}`} passHref>
+      <Link href={`/users/profiles/${name}`} passHref>
         <div>
           <p className='text-sm font-medium text-stone-700'>{name}</p>
           <p className='text-xs font-medium text-stone-500'>{details}</p>

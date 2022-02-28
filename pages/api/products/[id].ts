@@ -19,8 +19,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       }
     }
   });
-  console.log(product);
-  res.json({ ok: true, product });
+  // 상품명으로 유사상품 검색
+  const title = product?.name.split(' ').map(word => ({
+    name: {
+      contains: word
+    }
+  }));
+  const similarItems = await client.product.findMany({
+    where: {
+      OR: title,
+      AND: {
+        id: {
+          not: product?.id
+        }
+      }
+    }
+  });
+  console.log(similarItems);
+  res.json({ ok: true, product, similarItems });
 }
 
 export default withApiSession(withHandler({ methods: ['GET'], handler }));
