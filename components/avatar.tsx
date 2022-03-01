@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 interface Props {
   name?: string;
-  details?: string;
+  details?: Date | String;
   lg?: boolean;
 }
 
