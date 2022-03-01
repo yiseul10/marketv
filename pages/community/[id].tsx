@@ -73,13 +73,16 @@ const Board: NextPage = () => {
   };
   // 응답이 ok가 되면 폼을 리셋
   useEffect(() => {
-    if (replyData && replyData.ok) reset();
-  }, [replyData, reset]);
+    if (replyData && replyData.ok) {
+      reset();
+      mutate();
+    }
+  }, [replyData, reset, mutate]);
 
   return (
     <Layout text='Q & A' back>
       <div className='flex-col'>
-        <span className='m-4 mb-0 inline-flex items-center bg-teal-500 px-1 text-xs font-medium'>
+        <span className='mx-4 inline-flex items-center bg-teal-300 px-2 text-xs font-medium'>
           질문있어요
         </span>
         <div className='flex cursor-pointer items-center space-x-3 border-b p-4'>
@@ -147,22 +150,29 @@ const Board: NextPage = () => {
           </div>
         </div>
 
-        {data?.post?.answers?.map(answer => (
-          <div key={answer.id} className='space-y-5 p-4'>
-            <div className='flex items-start space-x-3'>
-              <Avatar name={answer.user.name} details={answer.createdAt} />
+        <div className='space-y-5 p-4 divide-y-[1px]'>
+          {data?.post?.answers?.map(answer => (
+            <div className='-m-4 flex items-center' key={answer.id}>
+              <div className='flex items-center space-x-3 p-4 w-full'>
+                <Avatar name={answer.user.name} details={answer.createdAt} />
+                <p>{answer.answer}</p>
+              </div>
             </div>
-            <p>{answer.answer}</p>
-            <form onSubmit={handleSubmit(onValid)}>
-              <TextArea
-                register={register('answer', { required: true })}
-                placeholder='같이 고민해봐요.'
-                required
-              />
-              <RoundedBtn text={replyLoading ? 'Loading...' : '답변 남기기'} />
-            </form>
-          </div>
-        ))}
+          ))}
+        </div>
+        <div className='px-4'>
+          <form onSubmit={handleSubmit(onValid)}>
+            <span className='mb-4 inline-flex items-center bg-amber-300 px-2 text-xs font-medium'>
+              답변 남기기
+            </span>
+            <TextArea
+              register={register('answer', { required: true })}
+              placeholder='신박한 아이디어 있어요!'
+              required
+            />
+            <RoundedBtn text={replyLoading ? 'Loading...' : '답변 남기기'} />
+          </form>
+        </div>
       </div>
     </Layout>
   );
