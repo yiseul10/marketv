@@ -3,13 +3,10 @@ import { Avatar } from '@components/avatar';
 import Layout from '@components/layout';
 import RoundedBtn from '@components/roundedBtn';
 import { useRouter } from 'next/router';
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR from 'swr';
 import { Product, User } from '@prisma/client';
 import Link from 'next/link';
 import useMutation from '@libs/client/useMutation';
-import { cls } from '@libs/client/utils';
-import products from 'pages/api/products';
-import useUser from '@libs/client/useUser';
 
 interface DetailWith extends Product {
   user: User;
