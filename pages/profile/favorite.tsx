@@ -2,14 +2,14 @@ import { NextPage } from 'next';
 import Layout from '@components/layout';
 import ProductList from '@components/productList';
 
-const MySell: NextPage = () => {
+const MyFavorite: NextPage = () => {
   return (
-    <Layout text='판매내역' back>
+    <Layout text='관심목록' back>
       <div className='flex flex-col space-y-5'>
-        <ProductList kind='sales' />
+        <ProductList kind='favorite' />
       </div>
     </Layout>
   );
 };
 
-export default MySell;
+export default MyFavorite;
