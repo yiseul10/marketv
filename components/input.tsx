@@ -5,7 +5,8 @@ interface Props {
   name: string;
   kind?: 'phone' | 'price' | 'text';
   type: string;
-  required: boolean;
+  minLength?: number;
+  required?: boolean;
   register: UseFormRegisterReturn;
 }
 
@@ -14,6 +15,7 @@ export default function Input({
   name,
   kind = 'text',
   type,
+  minLength,
   required,
   register
 }: Props) {
@@ -38,15 +40,16 @@ export default function Input({
         </div>
       ) : null}
       {kind === 'phone' ? (
-        <div className='flex rounded-full'>
-          <span className='flex items-center justify-center rounded-l-full border border-r-0 border-stone-300 px-3 text-sm text-stone-600'>
-            +82
+        <div className='flex rounded-full text-sm'>
+          <span className='flex items-center justify-center rounded-l-full border border-r-0 border-stone-300 px-3  text-stone-600'>
+            +010
           </span>
           <input
             className='w-full rounded-full rounded-l-none border border-stone-300 p-2 placeholder-gray-400 shadow-sm'
             id={name}
             type={type}
             required={required}
+            minLength={minLength}
             {...register}
           />
         </div>
