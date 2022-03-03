@@ -13,24 +13,27 @@ datasource db {
 }
 
 model User {
-  id              Int        @id @default(autoincrement())
-  email           String     @unique
-  phone           String     @default("")
-  name            String
-  avatar          String?
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  tokens          Token[]
-  products        Product[]
-  posts           Post[]
-  answers         Answer[]
-  interest        Interest[]
-  writtenReviews  Review[]   @relation(name: "writtenReviews")
-  ReceivedReviews Review[]   @relation(name: "ReceivedReviews")
-  sales           Sale[]
-  purchases       Purchase[]
-  favorite        Favorite[]
-  record          Record[]
+  id               Int        @id @default(autoincrement())
+  email            String     @unique
+  phone            String     @default("")
+  name             String
+  avatar           String?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  tokens           Token[]
+  products         Product[]
+  posts            Post[]
+  answers          Answer[]
+  interest         Interest[]
+  writtenReviews   Review[]   @relation(name: "writtenReviews")
+  ReceivedReviews  Review[]   @relation(name: "ReceivedReviews")
+  sales            Sale[]
+  purchases        Purchase[]
+  favorite         Favorite[]
+  record           Record[]
+  writtenMessages  Message[]  @relation(name: "writtenMessages")
+  ReceivedMessages Message[]  @relation(name: "ReceivedMessages")
+
 }
 
 model Token {
@@ -56,6 +59,7 @@ model Product {
   sales     Sale[]
   purchases Purchase[]
   record    Record[]
+  messages  Message[]
 }
 
 model Post {
@@ -148,4 +152,18 @@ enum Kind {
   Purchase
   Sale
   Favorite
+}
+
+// 상품에 대한 문의가 될 것
+model Message {
+  id           Int      @id @default(autoincrement())
+  message      String   @db.MediumText
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId    Int
+  createdBy    User     @relation(name: "writtenMessages", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById  Int
+  createdFor   User     @relation(name: "ReceivedMessages", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

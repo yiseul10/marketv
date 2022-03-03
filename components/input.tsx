@@ -1,7 +1,7 @@
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
 interface Props {
-  label: string;
+  label?: string;
   name: string;
   kind?: 'phone' | 'price' | 'text';
   type: string;

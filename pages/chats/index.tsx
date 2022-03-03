@@ -2,15 +2,27 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { Avatar } from '@components/avatar';
 import Layout from '@components/layout';
+import useSWR from 'swr';
+import { Message, User } from '@prisma/client';
+
+interface ChatsWith extends Message {
+  createdBy: User;
+}
+
+interface Chats {
+  ok: boolean;
+  messages: ChatsWith[];
+}
 
 const Chats: NextPage = () => {
+  const { data } = useSWR<Chats>('/api/chats');
   return (
     <Layout title='문의'>
       <div className='w-full flex-col divide-y-[1px]'>
-        {[1, 1, 1, 1].map((_, i) => (
-          <Link href={`/chats/${i}`} key={i} passHref>
+        {data?.messages.map(message => (
+          <Link href={`/chats/${message.id}`} key={message.id} passHref>
             <div className='flex cursor-pointer items-center space-x-3 p-4'>
-              <Avatar name='자몽이' details='우리 봄이 오기전에 꼭 만나요.' />
+              <Avatar name={message.createdBy.name} details={message.message} />
             </div>
           </Link>
         ))}
