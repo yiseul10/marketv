@@ -1,32 +1,64 @@
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import Layout from '@components/layout';
-import Message from '@components/message';
+import Messages from '@components/message';
 import useMutation from '@libs/client/useMutation';
 import { useRouter } from 'next/router';
+import useSWR from 'swr';
+import { Message, User } from '@prisma/client';
+import useUser from '@libs/client/useUser';
+import { useEffect } from 'react';
 
-interface Message {
+interface MessageWith extends Message {
+  createdBy: User;
+  productId: number;
+}
+
+interface MessageResponse {
+  ok: true;
+  messages: MessageWith[];
+}
+
+interface Talk {
   message: string;
 }
 
 const ChatDetail: NextPage = () => {
   const router = useRouter();
-  const { register, handleSubmit, reset } = useForm<Message>();
+  const { user } = useUser();
+  const { register, handleSubmit, reset } = useForm<Talk>();
+  const { data, mutate } = useSWR<MessageResponse>(
+    router.query ? `/api/chats` : null
+  );
+  console.log(data);
   // 데이터 백으로!
   const [sendMessage, { loading, data: sendMessageData }] = useMutation(
-    `/api/chats/${router.query.id}/messages`
+    `/api/chats/${router.query.id}`
   );
-  const onValid = (text: Message) => {
+  const onValid = (text: Talk) => {
     // when the submit,
+    if (loading) return;
     reset();
-    console.log(text);
+    sendMessage(text);
   };
+  useEffect(() => {
+    if (sendMessageData && sendMessageData.ok) {
+      mutate();
+    }
+  }, [sendMessageData, mutate]);
+
   return (
     <Layout text='채팅방나가기' back>
-      <div className='space-y-4 py-10 px-4 pb-16'>
-        <Message name='자몽이' message='천원이요.' />
-        <Message name='찡구' message='그냥 주세요' reversed />
-        <Message name='자몽이' message='아니 이 영감이' />
+      <div className='space-y-7 p-4'>
+        {data?.messages.map(ms => (
+          <Messages
+            name={ms.createdBy.name}
+            message={ms.message}
+            key={ms.id}
+            reversed={ms.createdById === user?.id}
+          />
+        ))}
+
         <div className='fixed inset-x-0 bottom-0 py-2'>
           <form
             onSubmit={handleSubmit(onValid)}

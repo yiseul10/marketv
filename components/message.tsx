@@ -7,7 +7,7 @@ interface MessageProps {
   avatarUrl?: string;
 }
 
-export default function Message({
+export default function Messages({
   message,
   name,
   avatarUrl,

@@ -7,6 +7,8 @@ import useSWR from 'swr';
 import { Product, User } from '@prisma/client';
 import Link from 'next/link';
 import useMutation from '@libs/client/useMutation';
+import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
 interface DetailWith extends Product {
   user: User;
@@ -25,8 +27,9 @@ const Detail: NextPage = () => {
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/favorite`);
+
+  // 데이터가 없는 상태가 될 수 있기 때문에
   const onFavorite = () => {
-    // 데이터가 없는 상태가 될 수 있기 때문에
     if (!data) return;
     boundMutate({ ...data, isLiked: !data.isLiked }, false);
     // 데이터-유무 / 빈 객체를 넣어주어 body가 비어있는  post요청이 되도록
@@ -38,10 +41,12 @@ const Detail: NextPage = () => {
       <div className='px-4'>
         <div className='h-96 bg-stone-300' />
         <div className='flex cursor-pointer items-center space-x-3 border-t border-b py-3'>
-          <Avatar
-            name={data?.product?.user?.name}
-            details='판매자정보 &rarr;'
-          />
+          <Link href='/profile/edit' passHref>
+            <Avatar
+              name={data?.product?.user?.name}
+              details='판매자정보 &rarr;'
+            />
+          </Link>
         </div>
         <div>
           <div className='mt-6 space-y-5'>
@@ -60,8 +65,6 @@ const Detail: NextPage = () => {
                 <svg
                   className='h-6 w-6 '
                   xmlns='http://www.w3.org/2000/svg'
-                  // fill='none'
-                  // 데이터변화에 따라 움직인다.
                   fill={data?.isLiked ? 'currentColor' : 'none'}
                   viewBox='0 0 24 24'
                   stroke='currentColor'
