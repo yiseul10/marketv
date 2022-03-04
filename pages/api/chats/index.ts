@@ -5,6 +5,7 @@ import { withApiSession } from '@libs/server/withSession';
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const {
+    query: { id },
     session: { user }
   } = req;
   const messages = await client.message.findMany({

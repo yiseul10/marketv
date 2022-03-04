@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 
 interface MessageWith extends Message {
   createdBy: User;
+  message: string;
   productId: number;
 }
 
@@ -28,33 +29,50 @@ const ChatDetail: NextPage = () => {
   const { user } = useUser();
   const { register, handleSubmit, reset } = useForm<Talk>();
   const { data, mutate } = useSWR<MessageResponse>(
-    router.query ? `/api/chats` : null
+    router.query ? `/api/chats` : null,
+    { refreshInterval: 1000 }
   );
   console.log(data);
   // 데이터 백으로!
   const [sendMessage, { loading, data: sendMessageData }] = useMutation(
     `/api/chats/${router.query.id}`
   );
+  // when the submit,
   const onValid = (text: Talk) => {
-    // when the submit,
     if (loading) return;
     reset();
+    mutate(
+      prev =>
+        prev &&
+        ({
+          ...prev,
+          messages: [
+            ...prev.messages,
+            {
+              id: Date.now(),
+              // productId: 2,
+              // createdForId: user?.id,
+              createdById: user?.id,
+              message: text.message,
+              createdBy: {
+                ...user
+              }
+            }
+          ]
+        } as any),
+      false
+    );
     sendMessage(text);
   };
-  useEffect(() => {
-    if (sendMessageData && sendMessageData.ok) {
-      mutate();
-    }
-  }, [sendMessageData, mutate]);
 
   return (
     <Layout text='채팅방나가기' back>
       <div className='space-y-7 p-4'>
         {data?.messages.map(ms => (
           <Messages
+            key={ms.id}
             name={ms.createdBy.name}
             message={ms.message}
-            key={ms.id}
             reversed={ms.createdById === user?.id}
           />
         ))}
