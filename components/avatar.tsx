@@ -16,12 +16,11 @@ export function Avatar({ name, details, lg }: Props) {
           ' rounded-full bg-stone-300'
         )}
       />
-      {/* <Link href='' passHref> */}
+
       <div>
         <p className='text-sm font-medium text-stone-700'>{name}</p>
         <p className='text-xs font-medium text-stone-500'>{details}</p>
       </div>
-      {/* </Link> */}
     </>
   );
 }

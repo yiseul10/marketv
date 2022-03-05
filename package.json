@@ -16,7 +16,8 @@
     "react": "^18.0.0-rc.0",
     "react-dom": "^18.0.0-rc.0",
     "react-hook-form": "^7.27.1",
-    "swr": "^1.2.2"
+    "swr": "^1.2.2",
+    "ts-node": "^10.6.0"
   },
   "devDependencies": {
     "@types/node": "17.0.21",
@@ -29,5 +30,8 @@
     "prisma": "^3.10.0",
     "tailwindcss": "^3.0.23",
     "typescript": "4.5.5"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   }
 }

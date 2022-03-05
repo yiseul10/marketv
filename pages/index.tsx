@@ -5,6 +5,7 @@ import Layout from '@components/layout';
 import useUser from '@libs/client/useUser';
 import useSWR from 'swr';
 import { Product } from '@prisma/client';
+import { useState } from 'react';
 
 export interface LikeWith extends Product {
   _count: {
@@ -15,11 +16,27 @@ export interface LikeWith extends Product {
 interface ProductType {
   ok: boolean;
   products: LikeWith[];
+  pageCount: number;
 }
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
-  const { data } = useSWR<ProductType>('/api/products');
+  const [pageIndex, setPageIndex] = useState(1);
+  const { data } = useSWR<ProductType>(`/api/products?page=${pageIndex}`);
+
+  // pagination
+  const pageCount = data?.pageCount;
+  const pageNum = Math.ceil(pageCount! / 10);
+  const page = [];
+  for (let i = 0; i < pageNum; i++) {
+    page.push(i);
+  }
+  const pageNext = () => {
+    if (pageIndex < page.length) setPageIndex(pageIndex + 1);
+  };
+  const pagePrev = () => {
+    if (pageIndex > 0) setPageIndex(pageIndex - 1);
+  };
 
   return (
     <Layout title='홈'>
@@ -54,6 +71,25 @@ const Home: NextPage = () => {
               />
             </svg>
           </CircleBtn>
+        </div>
+        <div className='text-center text-sm space-x-4 p-4'>
+          <button onClick={pagePrev}>&lsaquo;</button>
+          {page.map(num => (
+            <button
+              className={`${
+                pageIndex === num + 1
+                  ? 'text-stone-800 font-medium'
+                  : 'text-stone-400'
+              }`}
+              key={num}
+              onClick={() => {
+                setPageIndex(num + 1);
+              }}
+            >
+              {num + 1}
+            </button>
+          ))}
+          <button onClick={pageNext}>&rsaquo;</button>
         </div>
       </main>
     </Layout>

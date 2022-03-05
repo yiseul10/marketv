@@ -28,6 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
         }
       },
       answers: {
+        take: 10,
         select: {
           answer: true,
           id: true,

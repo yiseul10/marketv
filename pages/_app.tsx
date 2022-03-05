@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         fetcher: (url: string) => fetch(url).then(response => response.json())
       }}
     >
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </SWRConfig>
   );
 }

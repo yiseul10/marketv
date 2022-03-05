@@ -30,6 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   }));
   // OR은 빈목록을 반환한다.
   const similarItems = await client.product.findMany({
+    take: 4,
     where: {
       OR: title,
       AND: {

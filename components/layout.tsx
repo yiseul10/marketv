@@ -18,7 +18,7 @@ export default function Layout({ title, text, back, children }: LayoutProps) {
   return (
     <div className='mx-auto flex min-h-screen w-full max-w-4xl'>
       <Nav />
-      <div className='w-full max-w-4xl pl-16 lg:border-r-[1px]'>
+      <div className='w-full max-w-4xl pl-16 lg:border-r-[1px] h-full'>
         {back && (
           <div className='flex items-center'>
             <button className='p-4 text-2xl text-stone-700' onClick={onClick}>
@@ -28,7 +28,9 @@ export default function Layout({ title, text, back, children }: LayoutProps) {
           </div>
         )}
         {title && (
-          <span className='flex p-4 text-lg font-semibold'>{title}</span>
+          <span className='flex p-4 text-lg font-semibold border-b-[1px]'>
+            {title}
+          </span>
         )}
         {children}
       </div>
