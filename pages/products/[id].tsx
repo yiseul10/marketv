@@ -9,6 +9,7 @@ import Link from 'next/link';
 import useMutation from '@libs/client/useMutation';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import products from 'pages/api/products';
 
 interface DetailWith extends Product {
   user: User;
@@ -40,12 +41,14 @@ const Detail: NextPage = () => {
     <Layout back>
       <div className='px-4'>
         <div className='h-96 bg-stone-300' />
-        <div className='flex cursor-pointer items-center space-x-3 border-t border-b py-3'>
-          <Link href='/profile/edit' passHref>
-            <Avatar
-              name={data?.product?.user?.name}
-              details='판매자정보 &rarr;'
-            />
+        <div className='flex cursor-pointer border-b py-3'>
+          <Link href={`/profile/${data?.product.userId}`} passHref>
+            <div className='flex space-x-2 items-center'>
+              <Avatar
+                name={data?.product?.user?.name}
+                details='판매자정보 &rarr;'
+              />
+            </div>
           </Link>
         </div>
         <div>

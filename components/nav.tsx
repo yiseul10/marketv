@@ -3,9 +3,9 @@ import Link from 'next/link';
 
 const Nav: NextPage = () => {
   return (
-    <div className='fixed min-h-screen w-16 border-r-[1px] pt-3'>
-      <div className='flex flex-col place-items-center space-y-12  text-stone-800 lg:mr-3'>
-        <h1 className='text-3xl font-bold '>
+    <div className='fixed lg:min-h-screen lg:w-16 lg:border-r-[1px] pt-4 h-16 bottom-0 bg-white/10 backdrop-blur-sm w-full'>
+      <div className='flex lg:flex-col lg:place-items-center lg:space-y-5  h-2/3 justify-around items-center'>
+        <h1 className='text-3xl font-bold lg:inline-block hidden'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             className='h-10 w-10'
@@ -19,6 +19,7 @@ const Nav: NextPage = () => {
             />
           </svg>
         </h1>
+
         <Link href='/' passHref>
           <button className='cursor-pointer'>
             <svg
@@ -91,13 +92,13 @@ const Nav: NextPage = () => {
             </svg>
           </button>
         </Link>
-        <div className='border-t-2' />
-        <Link href='/profile' passHref>
-          <button className='cursor-pointer'>
-            <div className='relative h-12 w-12 rounded-full border bg-stone-300' />
-          </button>
-        </Link>
+        {/* <div className='border-t-2 hidden lg:block' /> */}
       </div>
+      <Link href='/profile' passHref>
+        <button className='cursor-pointer'>
+          <div className='relative h-12 w-12 rounded-full border bg-stone-300 hidden lg:block lg:my-8 lg:mx-2' />
+        </button>
+      </Link>
     </div>
   );
 };

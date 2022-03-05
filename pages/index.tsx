@@ -41,7 +41,7 @@ const Home: NextPage = () => {
   return (
     <Layout title='홈'>
       <main>
-        <div className='w-full flex-col divide-y-[1px]'>
+        <div className='grid grid-cols-2 gap-4 p-4'>
           {data?.products?.map(product => (
             <Items
               key={product.id}
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
               details={product.desc}
               price={product.price}
               like={product._count.favorite}
-              comments={0}
+              grid
             />
           ))}
 

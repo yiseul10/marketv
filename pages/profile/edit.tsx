@@ -1,17 +1,18 @@
 import { NextPage } from 'next';
-import { Avatar } from '@components/avatar';
 import Input from '@components/input';
 import Layout from '@components/layout';
 import RoundedBtn from '@components/roundedBtn';
 import useUser from '@libs/client/useUser';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useMutation from '@libs/client/useMutation';
+import Image from 'next/image';
 
 interface EditProfile {
   email?: string;
   phone?: string;
   name?: string;
+  avatar?: FileList;
   requiredError?: string;
 }
 interface EditResponse {
@@ -25,6 +26,7 @@ const Edit: NextPage = () => {
     setValue,
     handleSubmit,
     setError,
+    watch,
     formState: { errors }
   } = useForm<EditProfile>();
   const [edit, { data, loading }] = useMutation<EditResponse>('/api/users/me');
@@ -34,7 +36,8 @@ const Edit: NextPage = () => {
     if (user?.name) setValue('name', user?.name);
   }, [user, setValue]);
 
-  const onValid = ({ email, phone, name }: EditProfile) => {
+  const onValid = ({ email, phone, name, avatar }: EditProfile) => {
+    return;
     if (loading) return;
     if (email === '' || name === '') {
       return setError('requiredError', {
@@ -48,18 +51,39 @@ const Edit: NextPage = () => {
       setError('requiredError', { message: data.error });
     }
   }, [data, setError]);
+  const [avatarChange, setAvatarChange] = useState();
+  const avatar = watch('avatar');
+  useEffect(() => {
+    if (avatar && avatar.length > 0) {
+      // avatar는 FileList 배열 의 원소로 담겨있다.
+      const file = avatar[0];
+      // 브라우저 메모리의 주소를 가져온다.
+      setAvatarChange(URL.createObjectURL(file));
+    }
+  }, [avatar]);
 
   return (
     <Layout back>
       <form className='space-y-5 p-5' onSubmit={handleSubmit(onValid)}>
         <div className='flex items-center space-x-4'>
-          <Avatar lg />
+          {/* <Avatar src={avatarChange} lg /> */}
+          {avatarChange ? (
+            <Image
+              className='h-16 w-16 rounded-full bg-stone-300'
+              src={avatarChange}
+              alt='avatar'
+            />
+          ) : (
+            <div className='h-16 w-16 rounded-full bg-stone-300' />
+          )}
+
           <label
             htmlFor='picture'
             className='cursor-pointer rounded-full border border-stone-500 py-1.5 px-4 text-sm'
           >
             사진변경
             <input
+              {...register('avatar')}
               id='picture'
               type='file'
               className='hidden'

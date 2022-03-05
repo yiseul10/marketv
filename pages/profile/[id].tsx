@@ -20,64 +20,46 @@ interface Reviews {
 const Profile: NextPage = () => {
   const { user } = useUser();
   const { data } = useSWR<Reviews>('/api/reviews');
-  const [menu, setMenu] = useState<'나의판매' | '나의구매' | '관심목록'>(
-    '나의판매'
-  );
-  const onSoldClick = () => setMenu('나의판매');
-  const onBuyClick = () => setMenu('나의구매');
-  const onWishClick = () => setMenu('관심목록');
-  return (
-    <Layout title='나의 페이지'>
-      <div className='flex-col py-10 px-4 '>
-        <Link href='/profile/edit' passHref>
-          <div className='flex cursor-pointer items-center space-x-3'>
-            <Avatar name={user?.name} details='프로필수정 &rarr;' lg />
-          </div>
-        </Link>
+  const [menu, setMenu] = useState<'리뷰' | '다른상품'>('리뷰');
+  const onReviewClick = () => setMenu('리뷰');
+  const onListClick = () => setMenu('다른상품');
 
+  return (
+    <Layout text='판매자정보' back>
+      <div className='flex-col py-10 px-4 '>
+        <div className='flex cursor-pointer items-center space-x-5'>
+          <Avatar name={user?.name} details={user?.email} lg />
+        </div>
         <div className='-mx-4 flex space-x-7 border-b px-4 pt-10 text-sm font-medium'>
-          <Link href='/profile/sell' passHref>
+          <Link href={`/profile/${user?.id}`} passHref>
             <button
               className={cls(
                 'border-b-2 pb-2',
-                menu === '나의판매'
+                menu === '리뷰'
                   ? 'border-stone-800'
                   : 'border-transparent hover:opacity-80'
               )}
-              onClick={onSoldClick}
+              onClick={onReviewClick}
             >
-              나의판매
+              리뷰
             </button>
           </Link>
-          <Link href='/profile/purchase' passHref>
+          <Link href={`/profile/sell`} passHref>
             <button
               className={cls(
                 'border-b-2 pb-2',
-                menu === '나의구매'
+                menu === '다른상품'
                   ? 'border-stone-800'
                   : 'border-transparent hover:opacity-80'
               )}
-              onClick={onBuyClick}
+              onClick={onListClick}
             >
-              나의구매
-            </button>
-          </Link>
-          <Link href='/profile/favorite' passHref>
-            <button
-              className={cls(
-                'border-b-2 pb-2',
-                menu === '관심목록'
-                  ? 'border-stone-800'
-                  : 'border-transparent hover:opacity-80'
-              )}
-              onClick={onWishClick}
-            >
-              관심목록
+              다른상품 보기
             </button>
           </Link>
         </div>
         {data?.reviews.map(review => (
-          <div className='mt-12' key={review.id}>
+          <div className='mt-10' key={review.id}>
             <div className='flex items-center space-x-4'>
               <Avatar name={review.createdBy.name} />
               <div className='flex'>

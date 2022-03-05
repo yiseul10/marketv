@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRouter } from 'next/router';
 import Nav from './nav';
+import Link from 'next/link';
 
 interface LayoutProps {
   title?: string;
@@ -16,22 +17,25 @@ export default function Layout({ title, text, back, children }: LayoutProps) {
     router.back();
   };
   return (
-    <div className='mx-auto flex min-h-screen w-full max-w-4xl'>
+    <div className='mx-auto flex min-h-screen w-full max-w-4xl pb-20'>
       <Nav />
-      <div className='w-full max-w-4xl pl-16 lg:border-r-[1px] h-full'>
-        {back && (
-          <div className='flex items-center'>
-            <button className='p-4 text-2xl text-stone-700' onClick={onClick}>
-              &larr;
+      <div className='w-full max-w-4xl lg:pl-16 lg:border-r-[1px] '>
+        <div className='flex justify-between w-full border-b-[1px] items-center p-4'>
+          <Link href='/profile' passHref>
+            <button className='cursor-pointer lg:hidden block'>
+              <div className='relative h-10 w-10 rounded-full border bg-stone-300' />
             </button>
-            <p className='-m-2 text-sm'>{text}</p>
-          </div>
-        )}
-        {title && (
-          <span className='flex p-4 text-lg font-semibold border-b-[1px]'>
-            {title}
-          </span>
-        )}
+          </Link>
+          {back && (
+            <div className='flex items-center'>
+              <button className='text-2xl text-stone-700' onClick={onClick}>
+                &larr;
+              </button>
+              <p className='-m-2 text-sm'>{text}</p>
+            </div>
+          )}
+          {title && <span className='flex text-xl font-semibold'>{title}</span>}
+        </div>
         {children}
       </div>
     </div>
