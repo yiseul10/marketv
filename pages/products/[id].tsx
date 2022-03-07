@@ -40,12 +40,16 @@ const Detail: NextPage = () => {
   return (
     <Layout back>
       <div className='px-4'>
-        <div className='h-96 bg-stone-300' />
-        <div className='flex cursor-pointer border-b py-3'>
+        <img
+          src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${data?.product.image}/public`}
+          className='w-full bg-stone-300'
+        />
+        <div className='flex cursor-pointer border-b p-4 -mx-4'>
           <Link href={`/profile/${data?.product.userId}`} passHref>
             <div className='flex space-x-2 items-center'>
               <Avatar
                 name={data?.product?.user?.name}
+                userAvatar={data?.product.user.avatar}
                 details='판매자정보 &rarr;'
               />
             </div>

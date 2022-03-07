@@ -3,9 +3,11 @@ import CircleBtn from '@components/circleBtn';
 import Items from '@components/items';
 import Layout from '@components/layout';
 import useUser from '@libs/client/useUser';
-import useSWR from 'swr';
+import useSWR, { SWRConfig } from 'swr';
 import { Product } from '@prisma/client';
 import { useState } from 'react';
+import client from '@libs/server/client';
+import products from './api/products';
 
 export interface LikeWith extends Product {
   _count: {
@@ -95,5 +97,36 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
+// `data`는 `fallback`에 있기 때문에 항상 사용할 수 있습니다..
+const Page: NextPage<{ products: LikeWith[]; pageCount: number }> = ({
+  products,
+  pageCount
+}) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          '/api/products?page=${pageIndex}': {
+            ok: true,
+            products,
+            pageCount
+          }
+        }
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  );
+};
+export async function getServerSideProps() {
+  const products = await client.product.findMany({});
+  const pageCount = await client.product.count();
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+      pageCount: JSON.parse(JSON.stringify(pageCount))
+    }
+  };
+}
 
-export default Home;
+export default Page;

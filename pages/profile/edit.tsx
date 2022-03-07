@@ -34,28 +34,61 @@ const Edit: NextPage = () => {
     if (user?.email) setValue('email', user?.email);
     if (user?.phone) setValue('phone', user?.phone);
     if (user?.name) setValue('name', user?.name);
+    if (user?.avatar)
+      setAvatarChange(
+        `https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${user.avatar}/avatar`
+      );
   }, [user, setValue]);
 
-  const onValid = ({ email, phone, name, avatar }: EditProfile) => {
-    return;
+  const onValid = async ({ email, phone, name, avatar }: EditProfile) => {
     if (loading) return;
     if (email === '' || name === '') {
       return setError('requiredError', {
         message: '이메일과 이름은 필수항목입니다.'
       });
     }
-    edit({ email, phone, name });
+    if (avatar && avatar?.length > 0 && user?.email) {
+      // ask for CF URL
+      const cloudRequest = await fetch(`/api/files`);
+      // 받아온 데이터를 구조분해
+      const { uploadURL } = await cloudRequest.json();
+      // form 생성
+      const form = new FormData();
+      form.append('file', avatar[0], user?.email);
+      // cf에서 전달받은 url
+      const {
+        result: { id }
+      } = await (
+        await fetch(uploadURL, {
+          method: 'POST',
+          body: form
+        })
+      ).json();
+
+      edit({
+        email,
+        phone,
+        name,
+        avatarId: id
+      });
+    } else {
+      edit({
+        email,
+        phone,
+        name
+      });
+    }
   };
   useEffect(() => {
     if (data && !data.ok && data.error) {
       setError('requiredError', { message: data.error });
     }
   }, [data, setError]);
-  const [avatarChange, setAvatarChange] = useState();
+  const [avatarChange, setAvatarChange] = useState('');
   const avatar = watch('avatar');
   useEffect(() => {
     if (avatar && avatar.length > 0) {
-      // avatar는 FileList 배열 의 원소로 담겨있다.
+      // avatar는 FileList 배열의 원소로 담겨있다.
       const file = avatar[0];
       // 브라우저 메모리의 주소를 가져온다.
       setAvatarChange(URL.createObjectURL(file));
@@ -65,10 +98,10 @@ const Edit: NextPage = () => {
   return (
     <Layout back>
       <form className='space-y-5 p-5' onSubmit={handleSubmit(onValid)}>
-        <div className='flex items-center space-x-4'>
+        <div className='flex items-center space-x-4 relative'>
           {/* <Avatar src={avatarChange} lg /> */}
           {avatarChange ? (
-            <Image
+            <img
               className='h-16 w-16 rounded-full bg-stone-300'
               src={avatarChange}
               alt='avatar'

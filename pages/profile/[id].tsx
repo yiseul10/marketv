@@ -28,7 +28,12 @@ const Profile: NextPage = () => {
     <Layout text='판매자정보' back>
       <div className='flex-col py-10 px-4 '>
         <div className='flex cursor-pointer items-center space-x-5'>
-          <Avatar name={user?.name} details={user?.email} lg />
+          <Avatar
+            userAvatar={user?.avatar}
+            name={user?.name}
+            details={user?.email}
+            lg
+          />
         </div>
         <div className='-mx-4 flex space-x-7 border-b px-4 pt-10 text-sm font-medium'>
           <Link href={`/profile/${user?.id}`} passHref>

@@ -5,7 +5,7 @@ import { Avatar } from '@components/avatar';
 import Layout from '@components/layout';
 import { cls } from '@libs/client/utils';
 import useUser from '@libs/client/useUser';
-import useSWR from 'swr';
+import useSWR, { SWRConfig } from 'swr';
 import { Review, User } from '@prisma/client';
 
 interface ReviewWith extends Review {
@@ -31,7 +31,12 @@ const Profile: NextPage = () => {
       <div className='flex-col py-10 px-4 '>
         <Link href='/profile/edit' passHref>
           <div className='flex cursor-pointer items-center space-x-3'>
-            <Avatar name={user?.name} details='프로필수정 &rarr;' lg />
+            <Avatar
+              userAvatar={user?.avatar}
+              name={user?.name}
+              details='프로필수정 &rarr;'
+              lg
+            />
           </div>
         </Link>
 

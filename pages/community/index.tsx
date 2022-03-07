@@ -12,7 +12,6 @@ interface PostWith extends Post {
     answers: number;
   };
 }
-
 interface Posts {
   ok: boolean;
   posts: PostWith[];
@@ -20,7 +19,7 @@ interface Posts {
 
 const Community: NextPage = () => {
   const { data, error } = useSWR<Posts>('/api/posts');
-  console.log(data);
+
   return (
     <Layout title='게시판'>
       <div className='divide-y-[1px]'>

@@ -2,7 +2,6 @@ import withHandler, { Response } from '@libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
 import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
-import { createSecureContext } from 'tls';
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   if (req.method === 'GET') {
@@ -18,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   if (req.method === 'POST') {
     const {
       session: { user },
-      body: { email, phone, name }
+      body: { email, phone, name, avatarId }
     } = req;
     const currentUser = await client.user.findUnique({
       where: {
@@ -69,6 +68,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
         },
         data: {
           name
+        }
+      });
+    }
+
+    if (avatarId) {
+      await client.user.update({
+        where: {
+          id: user?.id
+        },
+        data: {
+          avatar: avatarId
         }
       });
     }
