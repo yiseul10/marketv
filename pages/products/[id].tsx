@@ -10,6 +10,7 @@ import useMutation from '@libs/client/useMutation';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import products from 'pages/api/products';
+import Image from 'next/image';
 
 interface DetailWith extends Product {
   user: User;
@@ -40,13 +41,17 @@ const Detail: NextPage = () => {
   return (
     <Layout back>
       <div className='px-4'>
-        <img
-          src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${data?.product.image}/public`}
-          className='w-full bg-stone-300'
-        />
+        <div className='relative pb-80'>
+          <Image
+            src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${data?.product.image}/public`}
+            className='object-scale-down'
+            alt='product image'
+            layout='fill'
+          />
+        </div>
         <div className='flex cursor-pointer border-b p-4 -mx-4'>
           <Link href={`/profile/${data?.product.userId}`} passHref>
-            <div className='flex space-x-2 items-center'>
+            <div className='flex space-x-3 items-center'>
               <Avatar
                 name={data?.product?.user?.name}
                 userAvatar={data?.product.user.avatar}
@@ -98,7 +103,14 @@ const Detail: NextPage = () => {
           {data?.similarItems.map(product => (
             <Link href={`/products/${product.id}`} passHref key={product.id}>
               <div className='cursor-pointer'>
-                <div className='h-56 w-full bg-stone-300' />
+                <div className='relative pb-80'>
+                  <Image
+                    src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${data?.product.image}/public`}
+                    className='object-scale-down'
+                    alt='product image'
+                    layout='fill'
+                  />
+                </div>
                 <p className='mt-3 text-stone-700'>{product.name}</p>
                 <p className='text-sm font-medium text-stone-900'>
                   {product.price}원

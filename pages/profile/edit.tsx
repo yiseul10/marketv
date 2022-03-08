@@ -99,12 +99,13 @@ const Edit: NextPage = () => {
     <Layout back>
       <form className='space-y-5 p-5' onSubmit={handleSubmit(onValid)}>
         <div className='flex items-center space-x-4 relative'>
-          {/* <Avatar src={avatarChange} lg /> */}
           {avatarChange ? (
-            <img
-              className='h-16 w-16 rounded-full bg-stone-300'
+            <Image
+              className='rounded-full bg-stone-300'
               src={avatarChange}
               alt='avatar'
+              width={48}
+              height={48}
             />
           ) : (
             <div className='h-16 w-16 rounded-full bg-stone-300' />

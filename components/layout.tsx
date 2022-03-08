@@ -1,8 +1,8 @@
-import React from 'react';
-
 import { useRouter } from 'next/router';
 import Nav from './nav';
 import Link from 'next/link';
+import { Avatar } from './avatar';
+import useUser from '@libs/client/useUser';
 
 interface LayoutProps {
   title?: string;
@@ -12,6 +12,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ title, text, back, children }: LayoutProps) {
+  const { user } = useUser();
   const router = useRouter();
   const onClick = () => {
     router.back();
@@ -19,17 +20,12 @@ export default function Layout({ title, text, back, children }: LayoutProps) {
   return (
     <div className='mx-auto flex min-h-screen w-full max-w-4xl pb-20 lg:border-r-[1px]'>
       <Nav />
-      <div className='w-full max-w-4xl lg:pl-16 '>
+      <div className='w-full lg:pl-16'>
         <div
           className={`${
             title ? 'border-b-[1px]' : ''
-          } flex w-full items-center p-4`}
+          } flex items-center p-4 justify-between`}
         >
-          <Link href='/profile' passHref>
-            <button className='cursor-pointer lg:hidden block'>
-              <div className='relative h-10 w-10 rounded-full border bg-stone-300' />
-            </button>
-          </Link>
           {back && (
             <div className='flex items-center space-x-3'>
               <button className='text-2xl text-stone-700' onClick={onClick}>
@@ -38,9 +34,12 @@ export default function Layout({ title, text, back, children }: LayoutProps) {
               <p className='-m-2 text-sm'>{text}</p>
             </div>
           )}
-          {title && (
-            <span className='flex text-xl font-semibold ml-4'>{title}</span>
-          )}
+          {title && <span className='flex text-xl font-semibold'>{title}</span>}
+          <Link href='/profile' passHref>
+            <button className='cursor-pointer lg:hidden block'>
+              <Avatar userAvatar={user?.avatar} />
+            </button>
+          </Link>
         </div>
         {children}
       </div>

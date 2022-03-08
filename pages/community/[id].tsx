@@ -86,7 +86,11 @@ const Board: NextPage = () => {
           질문있어요
         </span>
         <div className='flex cursor-pointer items-center space-x-3 border-b p-4'>
-          <Avatar name={data?.post?.user.name} details='판매자정보 &rarr;' />
+          <Avatar
+            userAvatar={data?.post.user.avatar}
+            name={data?.post?.user.name}
+            details='판매자정보 &rarr;'
+          />
         </div>
 
         <div className='border-b-[2px] p-4'>
@@ -154,7 +158,11 @@ const Board: NextPage = () => {
           {data?.post?.answers?.map(answer => (
             <div className='-m-4 flex items-center' key={answer.id}>
               <div className='flex items-center space-x-3 p-4 w-full'>
-                <Avatar name={answer.user.name} details={answer.createdAt} />
+                <Avatar
+                  userAvatar={answer.user.avatar}
+                  name={answer.user.name}
+                  details={answer.createdAt}
+                />
                 <p>{answer.answer}</p>
               </div>
             </div>

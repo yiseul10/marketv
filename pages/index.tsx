@@ -8,6 +8,7 @@ import { Product } from '@prisma/client';
 import { useState } from 'react';
 import client from '@libs/server/client';
 import products from './api/products';
+import Head from 'next/head';
 
 export interface LikeWith extends Product {
   _count: {
@@ -42,6 +43,9 @@ const Home: NextPage = () => {
 
   return (
     <Layout title='홈'>
+      <Head>
+        <title>마켓</title>
+      </Head>
       <main>
         <div className='grid grid-cols-2 gap-4 p-4'>
           {data?.products?.map(product => (
@@ -52,6 +56,7 @@ const Home: NextPage = () => {
               details={product.desc}
               price={product.price}
               like={product._count.favorite}
+              image={product.image}
               grid
             />
           ))}

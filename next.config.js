@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     concurrentFeatures: true
+  },
+  images: {
+    domains: ['imagedelivery.net']
   }
 };
 

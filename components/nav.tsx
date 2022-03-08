@@ -1,10 +1,16 @@
+import useUser from '@libs/client/useUser';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Avatar } from './avatar';
 
 const Nav: NextPage = () => {
+  const { user } = useUser();
+  const router = useRouter();
+
   return (
     <div className='fixed lg:min-h-screen lg:w-16 lg:border-r-[1px] pt-4 h-16 bottom-0 bg-white/10 backdrop-blur-sm w-full'>
-      <div className='flex lg:flex-col lg:place-items-center lg:space-y-5  h-2/3 justify-around items-center'>
+      <div className='flex lg:flex-col lg:place-items-center lg:space-y-7 lg:mr-4  h-2/3 justify-around items-center'>
         <h1 className='text-3xl font-bold lg:inline-block hidden'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -21,10 +27,22 @@ const Nav: NextPage = () => {
         </h1>
 
         <Link href='/' passHref>
-          <button className='cursor-pointer'>
+          <button>
+            <div
+              className={`${
+                router.pathname === '/'
+                  ? 'w-2 h-2 bg-yellow-400 translate-x-6 rounded-full'
+                  : ''
+              } cursor-pointer`}
+            />
             <svg
               xmlns='http://www.w3.org/2000/svg'
-              className='h-7 w-7'
+              className={`${
+                router.pathname === '/'
+                  ? 'bg-amber-400/5 shadow-xl shadow-amber-400/70 rounded-lg'
+                  : ''
+              } h-7 w-7`}
+              // className='h-7 w-7 bg-amber-400/10 shadow-xl shadow-amber-400/80 rounded-lg'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
@@ -39,10 +57,21 @@ const Nav: NextPage = () => {
           </button>
         </Link>
         <Link href='/chats' passHref>
-          <button className='cursor-pointer'>
+          <button>
+            <div
+              className={`${
+                router.pathname === '/chats'
+                  ? 'w-2 h-2 bg-yellow-400 translate-x-6 rounded-full'
+                  : ''
+              } cursor-pointer`}
+            />
             <svg
               xmlns='http://www.w3.org/2000/svg'
-              className='h-7 w-7'
+              className={`${
+                router.pathname === '/chats'
+                  ? 'bg-amber-400/5 shadow-xl shadow-amber-400/70 rounded-lg'
+                  : ''
+              } h-7 w-7`}
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
@@ -57,10 +86,21 @@ const Nav: NextPage = () => {
           </button>
         </Link>
         <Link href='/community' passHref>
-          <button className='cursor-pointer'>
+          <button>
+            <div
+              className={`${
+                router.pathname === '/community'
+                  ? 'w-2 h-2 bg-yellow-400 translate-x-6 rounded-full'
+                  : ''
+              } cursor-pointer`}
+            />
             <svg
               xmlns='http://www.w3.org/2000/svg'
-              className='h-7 w-7'
+              className={`${
+                router.pathname === '/community'
+                  ? 'bg-amber-400/5 shadow-xl shadow-amber-400/70 rounded-lg'
+                  : ''
+              } h-7 w-7`}
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
@@ -75,10 +115,21 @@ const Nav: NextPage = () => {
           </button>
         </Link>
         <Link href='/stream' passHref>
-          <button className='cursor-pointer'>
+          <button>
+            <div
+              className={`${
+                router.pathname === '/stream'
+                  ? 'w-2 h-2 bg-yellow-400 translate-x-6 rounded-full'
+                  : ''
+              } cursor-pointer`}
+            />
             <svg
               xmlns='http://www.w3.org/2000/svg'
-              className='h-7 w-7'
+              className={`${
+                router.pathname === '/stream'
+                  ? 'bg-amber-400/5 shadow-xl shadow-amber-400/70 rounded-lg'
+                  : ''
+              } h-7 w-7`}
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
@@ -92,11 +143,10 @@ const Nav: NextPage = () => {
             </svg>
           </button>
         </Link>
-        {/* <div className='border-t-2 hidden lg:block' /> */}
       </div>
       <Link href='/profile' passHref>
-        <button className='cursor-pointer'>
-          <div className='relative h-12 w-12 rounded-full border bg-stone-300 hidden lg:block lg:my-8 lg:mx-2' />
+        <button className='cursor-pointer hidden lg:block lg:my-16 '>
+          <Avatar userAvatar={user?.avatar} />
         </button>
       </Link>
     </div>

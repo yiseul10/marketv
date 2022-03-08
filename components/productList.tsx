@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import Items from './items';
 
 interface ListProps {
-  kind: 'favorite' | 'sales' | 'purchases';
+  kind: 'favorites' | 'sales' | 'purchases';
 }
 
 interface ProductList {
@@ -19,8 +19,9 @@ interface List {
 
 export default function ProductList({ kind }: ListProps) {
   const { data } = useSWR<List>(`/api/users/me/${kind}`);
+  console.log(data);
   return data ? (
-    <>
+    <div className=' divide-y-[1px] w-full'>
       {data[kind]?.map(record => (
         <Items
           key={record.id}
@@ -28,8 +29,9 @@ export default function ProductList({ kind }: ListProps) {
           price={record.product.price}
           id={record.product.id}
           like={record.product._count.favorite}
+          image={record.product.image}
         />
       ))}
-    </>
+    </div>
   ) : null;
 }

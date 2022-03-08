@@ -27,6 +27,7 @@ const Chats: NextPage = () => {
               <Link href={`/chats/${message.id}`} key={message.id} passHref>
                 <div className='flex cursor-pointer items-center space-x-3 p-4'>
                   <Avatar
+                    userAvatar={message.createdBy.avatar}
                     name={message.createdBy.name}
                     details={message.message}
                   />

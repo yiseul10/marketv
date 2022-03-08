@@ -50,8 +50,8 @@ const ChatDetail: NextPage = () => {
             ...prev.messages,
             {
               id: Date.now(),
-              // productId: 2,
-              // createdForId: user?.id,
+              productId: 95,
+              createdForId: user?.id,
               createdById: user?.id,
               message: text.message,
               createdBy: {
@@ -74,6 +74,8 @@ const ChatDetail: NextPage = () => {
             name={ms.createdBy.name}
             message={ms.message}
             reversed={ms.createdById === user?.id}
+            userAvatar={user?.avatar}
+            reversedAvatar={ms.createdById === user?.id}
           />
         ))}
 

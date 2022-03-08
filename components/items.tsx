@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
   price: number;
   like?: number;
   id: number;
+  image?: string | null;
   grid?: boolean;
 }
 
@@ -15,13 +17,21 @@ export default function Items({
   price,
   like,
   id,
+  image,
   grid
 }: Props) {
   return (
     <Link href={`/products/${id}`} passHref>
       {grid ? (
         <div className='pb-4 cursor-pointer'>
-          <div className='w-full h-[240px] rounded-md bg-stone-400' />
+          <div className='relative pb-72'>
+            <Image
+              src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${image}/public`}
+              className='object-scale-down'
+              alt='product image'
+              layout='fill'
+            />
+          </div>
           <div className='flex flex-col mt-2 mx-1'>
             <h3 className='text-lg font-medium '>{title}</h3>
             <span className='text-xs text-stone-500'>{details}</span>
@@ -50,7 +60,15 @@ export default function Items({
       ) : (
         <div className='flex cursor-pointer justify-between p-4'>
           <div className='flex space-x-4 items-center'>
-            <div className='h-20 w-20 rounded-md bg-stone-400' />
+            <div className='relative'>
+              <Image
+                src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${image}/public`}
+                className='object-cover rounded-lg'
+                alt='product image'
+                width={110}
+                height={79}
+              />
+            </div>
             <div className='flex flex-col space-y-1'>
               <h3 className='text-sm font-medium text-stone-900'>{title}</h3>
               <span className='text-xs text-stone-500'>{details}</span>

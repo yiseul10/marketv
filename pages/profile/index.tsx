@@ -30,7 +30,7 @@ const Profile: NextPage = () => {
     <Layout title='나의 페이지'>
       <div className='flex-col py-10 px-4 '>
         <Link href='/profile/edit' passHref>
-          <div className='flex cursor-pointer items-center space-x-3'>
+          <div className='flex cursor-pointer'>
             <Avatar
               userAvatar={user?.avatar}
               name={user?.name}
