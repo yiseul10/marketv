@@ -75,7 +75,7 @@ const Upload: NextPage = () => {
               />
             </div>
           ) : (
-            <label className='flex h-48 w-full cursor-pointer items-center justify-center rounded-lg text-stone-700 hover:bg-stone-100'>
+            <label className='flex h-48 w-full cursor-pointer items-center justify-center rounded-xl text-stone-500 hover:bg-stone-50 hover:outline-dotted  outline-offset-2 outline-stone-400 hover:text-stone-700'>
               <svg
                 className='h-16 w-16'
                 stroke='currentColor'

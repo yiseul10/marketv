@@ -3,6 +3,7 @@ import Nav from './nav';
 import Link from 'next/link';
 import { Avatar } from './avatar';
 import useUser from '@libs/client/useUser';
+import Head from 'next/head';
 
 interface LayoutProps {
   title?: string;
@@ -19,6 +20,9 @@ export default function Layout({ title, text, back, children }: LayoutProps) {
   };
   return (
     <div className='mx-auto flex min-h-screen w-full max-w-4xl pb-20 lg:border-r-[1px]'>
+      <Head>
+        <title>마켓</title>
+      </Head>
       <Nav />
       <div className='w-full lg:pl-16'>
         <div

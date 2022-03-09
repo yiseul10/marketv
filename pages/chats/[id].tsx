@@ -50,7 +50,7 @@ const ChatDetail: NextPage = () => {
             ...prev.messages,
             {
               id: Date.now(),
-              productId: 95,
+              productId: null,
               createdForId: user?.id,
               createdById: user?.id,
               message: text.message,
@@ -79,7 +79,7 @@ const ChatDetail: NextPage = () => {
           />
         ))}
 
-        <div className='fixed inset-x-0 bottom-0 py-2'>
+        <div className='fixed inset-x-0 bottom-4 py-2'>
           <form
             onSubmit={handleSubmit(onValid)}
             className='relative mx-auto flex w-full max-w-md items-center'
@@ -88,6 +88,7 @@ const ChatDetail: NextPage = () => {
               {...register('message', { required: true })}
               type='text'
               className='w-full rounded-full border border-stone-400 p-3'
+              placeholder='메세지를 입력하세요 :)'
             />
           </form>
         </div>

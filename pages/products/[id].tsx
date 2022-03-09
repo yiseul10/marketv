@@ -38,6 +38,8 @@ const Detail: NextPage = () => {
     toggleFav({});
   };
 
+  // 1. 온클릭 -> 포스트요청, 메세지는 없는 새로운 채팅방이 만들어진다.
+
   return (
     <Layout back>
       <div className='px-4'>
@@ -95,7 +97,9 @@ const Detail: NextPage = () => {
               {data?.product?.price}원
             </span>
             <p className='my-3 text-stone-700'>{data?.product?.desc}</p>
-            <RoundedBtn text='구매문의' />
+            <Link href={`/chats/${data?.product.id}`} passHref>
+              <RoundedBtn text='구매문의' />
+            </Link>
           </div>
         </div>
         <h2 className='pt-12'>다음 상품을 추천합니다.</h2>

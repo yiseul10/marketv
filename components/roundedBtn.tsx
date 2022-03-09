@@ -3,7 +3,7 @@ interface Props {
   [key: string]: any;
 }
 
-export default function RoundedBtn({ text, onClick, ...rest }: Props) {
+export default function RoundedBtn({ text, ...rest }: Props) {
   return (
     <button
       {...rest}
