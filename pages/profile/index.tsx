@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Avatar } from '@components/avatar';
@@ -7,7 +7,8 @@ import { cls } from '@libs/client/utils';
 import useUser from '@libs/client/useUser';
 import useSWR, { SWRConfig } from 'swr';
 import { Review, User } from '@prisma/client';
-import Head from 'next/head';
+import { withSsrSession } from '@libs/server/withSession';
+import client from '@libs/server/client';
 
 interface ReviewWith extends Review {
   createdBy: User;
@@ -115,4 +116,38 @@ const Profile: NextPage = () => {
   );
 };
 
-export default Profile;
+// fallback 데이터구조가 같아야 한다.
+const Page: NextPage<{ profile: User }> = ({ profile }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          '/api/users/me': { ok: true, profile }
+        }
+      }}
+    >
+      <Profile />
+    </SWRConfig>
+  );
+};
+// 프로필 페이지 => 유저 데이터가 필요하다.
+// 유저에 대한 정보는 useUser()에서 Api통해 요청하고 있고 이 api는 req.session.user.id로 DB에서 요청한다.
+// 서버에서 오는 전체 데이터 안에는 쿠키가 있고 이 쿠키는 ironsession에서 오고 있지요.
+// api withApiSession함수는 그 쿠기를 가져와서 암호화를 푼 다음 리퀘스트에 쿠키의 내용을 담아서 보내준다.
+// 세션 핸들러에 가서 서버사이드 렌더링시 쿠키를 복호화할 함수를 만들고, getServerSideProps를 withSsrSession으로 감싼다.
+// JSON next버그 프리즈마 date를 직렬화하지 못하는 문제가 있기 때문에 직접 parse
+
+export const getServerSideProps = withSsrSession(async function ({
+  req
+}: NextPageContext) {
+  const profile = await client.user.findUnique({
+    where: { id: req?.session.user?.id }
+  });
+  return {
+    props: {
+      profile: JSON.parse(JSON.stringify(profile))
+    }
+  };
+});
+
+export default Page;

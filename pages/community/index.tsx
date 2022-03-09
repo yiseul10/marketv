@@ -4,9 +4,12 @@ import Layout from '@components/layout';
 import Link from 'next/link';
 import useSWR from 'swr';
 import { Post, User } from '@prisma/client';
+import useMutation from '@libs/client/useMutation';
 
 interface PostWith extends Post {
   user: User;
+  id: number;
+  createdAt: Date;
   _count: {
     interest: number;
     answers: number;

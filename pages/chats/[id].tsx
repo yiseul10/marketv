@@ -8,6 +8,7 @@ import useSWR from 'swr';
 import { Message, User } from '@prisma/client';
 import useUser from '@libs/client/useUser';
 import { useEffect } from 'react';
+import products from 'pages/api/products';
 
 interface MessageWith extends Message {
   createdBy: User;
@@ -24,6 +25,11 @@ interface Talk {
   message: string;
 }
 
+interface ProductResponse {
+  ok: true;
+  chats: Message;
+}
+
 const ChatDetail: NextPage = () => {
   const router = useRouter();
   const { user } = useUser();
@@ -32,7 +38,12 @@ const ChatDetail: NextPage = () => {
     router.query ? `/api/chats` : null,
     { refreshInterval: 1000 }
   );
-  console.log(data);
+  // get data
+  const { data: productData } = useSWR<ProductResponse>(
+    `/api/chats/${router.query.id}`
+  );
+  console.log(productData);
+
   // 데이터 백으로!
   const [sendMessage, { loading, data: sendMessageData }] = useMutation(
     `/api/chats/${router.query.id}`
@@ -50,7 +61,7 @@ const ChatDetail: NextPage = () => {
             ...prev.messages,
             {
               id: Date.now(),
-              productId: null,
+              productId: productData?.chats?.id,
               createdForId: user?.id,
               createdById: user?.id,
               message: text.message,
@@ -64,7 +75,7 @@ const ChatDetail: NextPage = () => {
     );
     sendMessage(text);
   };
-
+  // TODOproductId와 message의 productid가 같을 때만 대화를 보여준다.
   return (
     <Layout text='채팅방나가기' back>
       <div className='space-y-7 p-4'>

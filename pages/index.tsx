@@ -7,7 +7,6 @@ import useSWR, { SWRConfig } from 'swr';
 import { Product } from '@prisma/client';
 import { useState } from 'react';
 import client from '@libs/server/client';
-import products from './api/products';
 
 export interface LikeWith extends Product {
   _count: {
@@ -98,7 +97,7 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
-// `data`는 `fallback`에 있기 때문에 항상 사용할 수 있습니다..
+// `data`는 `fallback`에 있기 때문에 항상 사용할 수 있습니다.
 const Page: NextPage<{ products: LikeWith[]; pageCount: number }> = ({
   products,
   pageCount

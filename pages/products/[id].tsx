@@ -29,6 +29,7 @@ const Detail: NextPage = () => {
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/favorite`);
+  const [newChat] = useMutation(`api/chats/${router.query.id}`);
 
   // 데이터가 없는 상태가 될 수 있기 때문에
   const onFavorite = () => {
@@ -39,6 +40,11 @@ const Detail: NextPage = () => {
   };
 
   // 1. 온클릭 -> 포스트요청, 메세지는 없는 새로운 채팅방이 만들어진다.
+  const handleChats = (data?: DetailProps) => {
+    if (!data) return;
+    console.log(data);
+    newChat(data);
+  };
 
   return (
     <Layout back>
@@ -52,7 +58,7 @@ const Detail: NextPage = () => {
           />
         </div>
         <div className='flex cursor-pointer border-b p-4 -mx-4'>
-          <Link href={`/profile/${data?.product.userId}`} passHref>
+          <Link href={`/profile/${data?.product.id}`} passHref>
             <div className='flex space-x-3 items-center'>
               <Avatar
                 name={data?.product?.user?.name}
@@ -98,7 +104,7 @@ const Detail: NextPage = () => {
             </span>
             <p className='my-3 text-stone-700'>{data?.product?.desc}</p>
             <Link href={`/chats/${data?.product.id}`} passHref>
-              <RoundedBtn text='구매문의' />
+              <RoundedBtn onClick={() => handleChats(data)} text='구매문의' />
             </Link>
           </div>
         </div>
