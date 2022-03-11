@@ -2,7 +2,7 @@ import { cls } from '@libs/client/utils';
 import Image from 'next/image';
 
 interface MessageProps {
-  message: string;
+  message?: string;
   name?: string;
   reversed?: boolean;
   reversedAvatar?: boolean;

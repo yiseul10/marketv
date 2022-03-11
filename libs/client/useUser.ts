@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
-import { Router, useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import useSWR from 'swr';
 
 interface UserResponse {
@@ -18,17 +18,4 @@ export default function useUser() {
   }, [data, router]);
 
   return { user: data?.profile, isLoading: !data && !error };
-  /* const [user, setUser] = useState([]);
-  const router = useRouter();
-  useEffect(() => {
-    fetch('/api/users/me')
-      .then(response => response.json())
-      .then(data => {
-        if (!data.ok) {
-          return router.replace('/entrace');
-        }
-        setUser(data.profile);
-      });
-  }, [router]); 
-  return user; */
 }

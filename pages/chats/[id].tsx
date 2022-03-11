@@ -9,6 +9,7 @@ import { Message, User } from '@prisma/client';
 import useUser from '@libs/client/useUser';
 import { useEffect } from 'react';
 import products from 'pages/api/products';
+import chats from 'pages/api/chats';
 
 interface MessageWith extends Message {
   createdBy: User;
@@ -61,7 +62,7 @@ const ChatDetail: NextPage = () => {
             ...prev.messages,
             {
               id: Date.now(),
-              productId: productData?.chats?.id,
+              productId: router.query.id,
               createdForId: user?.id,
               createdById: user?.id,
               message: text.message,
@@ -75,7 +76,7 @@ const ChatDetail: NextPage = () => {
     );
     sendMessage(text);
   };
-  // TODOproductId와 message의 productid가 같을 때만 대화를 보여준다.
+  // TODOproductId와 message의 productid가 같을 때만 대화를 보여줘야한다.
   return (
     <Layout text='채팅방나가기' back>
       <div className='space-y-7 p-4'>
@@ -89,7 +90,6 @@ const ChatDetail: NextPage = () => {
             reversedAvatar={ms.createdById === user?.id}
           />
         ))}
-
         <div className='fixed inset-x-0 bottom-4 py-2'>
           <form
             onSubmit={handleSubmit(onValid)}

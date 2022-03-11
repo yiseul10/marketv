@@ -42,7 +42,6 @@ const Nav: NextPage = () => {
                   ? 'bg-amber-400/5 shadow-xl shadow-amber-400/70 rounded-lg'
                   : ''
               } h-7 w-7`}
-              // className='h-7 w-7 bg-amber-400/10 shadow-xl shadow-amber-400/80 rounded-lg'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'

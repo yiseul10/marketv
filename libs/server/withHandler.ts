@@ -11,13 +11,14 @@ interface PropsType {
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
   isPrivate?: boolean;
 }
+/* 함수를 다시 리턴하는 핸들러fn. 실행할 함수의 method를 확인하고
+반복되는 작업을 피하기 위해 한번 감싸주는 형태 */
 
 export default function withHandler({
   methods,
   isPrivate = true,
   handler
 }: PropsType) {
-  // 실행할 함수 method validation
   return async function (
     req: NextApiRequest,
     res: NextApiResponse
@@ -36,8 +37,3 @@ export default function withHandler({
     }
   };
 }
-
-/* 함수를 다시 리턴하는 핸들러fn. 반복되는 작업을 피하기 위해 한번 감싸주는 형태
-405 bad request 
-401 Unauthorized 인증되지 않음
-500 Internal Server Error 구체적이지않은 서버에러 */
