@@ -113,11 +113,11 @@ const Nav: NextPage = () => {
             </svg>
           </button>
         </Link>
-        <Link href='/stream' passHref>
+        <Link href='/notice' passHref>
           <button>
             <div
               className={`${
-                router.pathname === '/stream'
+                router.pathname === '/notice'
                   ? 'w-2 h-2 bg-yellow-400 translate-x-6 rounded-full'
                   : ''
               } cursor-pointer`}
@@ -125,7 +125,7 @@ const Nav: NextPage = () => {
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className={`${
-                router.pathname === '/stream'
+                router.pathname === '/notice'
                   ? 'bg-amber-400/5 shadow-xl shadow-amber-400/70 rounded-lg'
                   : ''
               } h-7 w-7`}

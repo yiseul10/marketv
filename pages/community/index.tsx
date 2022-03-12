@@ -21,7 +21,6 @@ interface Posts {
 
 const Community: NextPage = () => {
   const { data, error } = useSWR<Posts>('/api/posts');
-
   return (
     <Layout title='게시판'>
       <div className='divide-y-[1px]'>

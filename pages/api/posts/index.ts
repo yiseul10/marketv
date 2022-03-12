@@ -22,7 +22,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
         }
       }
     });
-
     res.json({
       ok: true,
       posts
