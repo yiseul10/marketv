@@ -6,7 +6,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 mail.setApiKey(process.env.SENDGRID_KEY!);
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const { email } = req.body;
+  const {
+    // session: { user },
+    body: { email }
+  } = req;
+
   if (!email) return res.status(400).json({ ok: false });
   const payload = Math.floor(10000 + Math.random() * (10000 - 1) + 1) + '';
   if (email) {

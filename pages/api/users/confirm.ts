@@ -1,4 +1,3 @@
-import { withIronSessionApiRoute } from 'iron-session/next';
 import withHandler, { Response } from '@libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
 import client from '@libs/server/client';
@@ -11,14 +10,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       payload: token
     }
   });
-  if (!tokenFound) return res.status(400).end();
+  if (!tokenFound) return res.status(404).end();
   // 토큰이 존재하면 그 토큰의 유저id를 req.session.user에 담음
   req.session.user = {
     id: tokenFound.userId
   };
   // 세션저장
-  await req.session.save();
   // tokenFound 모두삭제
+  await req.session.save();
   await client.token.deleteMany({
     where: {
       userId: tokenFound.userId
@@ -27,4 +26,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   res.json({ ok: true });
 }
 
-export default withApiSession(withHandler({ methods: ['POST'], handler }));
+export default withApiSession(
+  withHandler({ methods: ['POST'], handler, isPrivate: false })
+);
