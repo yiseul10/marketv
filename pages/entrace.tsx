@@ -43,7 +43,7 @@ const Login: NextPage = () => {
 
   return (
     <div className='mx-auto mt-20 max-w-xl px-4 text-stone-800'>
-      <h3 className='text-center text-3xl font-bold'>Market</h3>
+      <h3 className='text-center text-3xl font-bold'>Test it!</h3>
       <div className='space-y-8 pt-10'>
         {data?.ok ? (
           <>
