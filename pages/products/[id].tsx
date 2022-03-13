@@ -7,9 +7,6 @@ import useSWR from 'swr';
 import { Product, User } from '@prisma/client';
 import Link from 'next/link';
 import useMutation from '@libs/client/useMutation';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import products from 'pages/api/products';
 import Image from 'next/image';
 
 interface DetailWith extends Product {
@@ -115,7 +112,7 @@ const Detail: NextPage = () => {
               <div className='cursor-pointer'>
                 <div className='relative pb-80'>
                   <Image
-                    src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${data?.product.image}/public`}
+                    src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${product.image}/public`}
                     className='object-scale-down'
                     alt='product image'
                     layout='fill'
