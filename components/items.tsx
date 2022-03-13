@@ -24,7 +24,7 @@ export default function Items({
     <Link href={`/products/${id}`} passHref>
       {grid ? (
         <div className='pb-4 cursor-pointer'>
-          <div className='relative pb-72'>
+          <div className='relative pb-80'>
             <Image
               src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${image}/public`}
               className='object-scale-down'

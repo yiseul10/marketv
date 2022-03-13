@@ -43,6 +43,8 @@ model Token {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model Product {
@@ -60,6 +62,8 @@ model Product {
   purchases Purchase[]
   record    Record[]
   messages  Message[]
+
+  @@index([userId])
 }
 
 model Post {
@@ -71,6 +75,8 @@ model Post {
   updatedAt DateTime   @updatedAt
   answers   Answer[]
   interest  Interest[]
+
+  @@index([userId])
 }
 
 model Answer {
@@ -82,6 +88,8 @@ model Answer {
   answer    String   @db.MediumText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId, postId])
 }
 
 model Interest {
@@ -92,6 +100,8 @@ model Interest {
   postId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId, postId])
 }
 
 model Review {
@@ -104,6 +114,8 @@ model Review {
   createdFor   User     @relation(name: "ReceivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
   createdForId Int
   score        Int      @default(1)
+
+  @@index([createdById, createdForId])
 }
 
 model Sale {
@@ -114,6 +126,8 @@ model Sale {
   productId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId, productId])
 }
 
 model Purchase {
@@ -124,6 +138,8 @@ model Purchase {
   productId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId, productId])
 }
 
 model Favorite {
@@ -134,6 +150,8 @@ model Favorite {
   productId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId, productId])
 }
 
 // sale, purchase, favorite는 유저와 제품간의 관계에 대한 레코드구조가 같다.
@@ -146,6 +164,8 @@ model Record {
   createdAt DateTime @default(now())
   kind      Kind
   updatedAt DateTime @updatedAt
+
+  @@index([userId, productId])
 }
 
 enum Kind {
@@ -166,4 +186,6 @@ model Message {
   createdForId Int
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  @@index([createdById, createdForId, productId])
 }

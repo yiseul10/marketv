@@ -14,7 +14,7 @@ interface NoticeType {
 const Notice: NextPage<{ notice: NoticeType[] }> = ({ notice }) => {
   return (
     <Layout title='공지사항'>
-      <div className='w-full mx-auto p-4 text-stone-800'>
+      <div className='mx-auto p-4 text-stone-800'>
         <span className='mb-5 inline-flex items-center bg-amber-300 px-1 text-xs font-medium'>
           <h1>새로운 소식</h1>
         </span>
