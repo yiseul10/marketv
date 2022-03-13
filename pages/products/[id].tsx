@@ -110,7 +110,7 @@ const Detail: NextPage = () => {
           {data?.similarItems.map(product => (
             <Link href={`/products/${product.id}`} passHref key={product.id}>
               <div className='cursor-pointer'>
-                <div className='relative pb-80'>
+                <div className='relative pb-64'>
                   <Image
                     src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${product.image}/public`}
                     className='object-scale-down'
