@@ -13,8 +13,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
 
   if (!email) return res.status(400).json({ ok: false });
   // const payload = Math.floor(10000 + Math.random() * (10000 - 1) + 1) + '';
-  const payload = 11718+''
-   if (email) {
+  const payload = 11718 + '';
+  if (email) {
     const token = await client.token.create({
       data: {
         payload,
@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
         }
       }
     });
- 
+
     /*     const sendEmail = await mail.send({
       from: 'yiseul10@gmail.com',
       to: 'yiseul10@gmail.com',
@@ -34,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       text: `로그인용 토큰은 ${payload}입니다. 🎉`,
       html: `<strong> 로그인용 토큰은 ${payload}입니다. 🎉 </strong>`
     });
-    console.log(sendEmail); */
+    console.log(sendEmail);
 
   /* if (email) {
     user = await client.user.findUnique({ where: { email } });
@@ -46,8 +46,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
           email
         }
       });
-    } 
-  }*/
+    }  */
+  }
   return res.json({ ok: true });
 }
 
