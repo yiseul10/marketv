@@ -21,6 +21,7 @@ interface Posts {
 
 const Community: NextPage = () => {
   const { data, error } = useSWR<Posts>('/api/posts');
+
   return (
     <Layout title='게시판'>
       <div className='divide-y-[1px]'>
@@ -34,8 +35,7 @@ const Community: NextPage = () => {
                 Q. {post.question}
               </span>
               <div className='mt-4 px-4 text-stone-400 text-xs font-medium space-x-1'>
-                <span>{post.user.name}</span>
-                <span>{post.createdAt}</span>
+                <span>{`${post.createdAt}`.split('T', 1)}</span>
               </div>
               <div className='flex space-x-5 px-4 py-3 text-sm text-stone-600'>
                 <span className='flex items-center space-x-2'>

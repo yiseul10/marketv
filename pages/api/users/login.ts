@@ -34,9 +34,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       text: `로그인용 토큰은 ${payload}입니다. 🎉`,
       html: `<strong> 로그인용 토큰은 ${payload}입니다. 🎉 </strong>`
     });
-    console.log(sendEmail);
+    console.log(sendEmail); */
 
-  /* if (email) {
+    /* if (email) {
     user = await client.user.findUnique({ where: { email } });
    if (!user) {
       console.log('not founded');
