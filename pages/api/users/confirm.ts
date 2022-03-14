@@ -16,16 +16,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     id: tokenFound.userId
   };
   // 세션저장
-  // tokenFound 모두삭제
   await req.session.save();
-  await client.token.deleteMany({
-    where: {
-      userId: tokenFound.userId
-    }
-  });
+  // tokenFound 모두삭제
+  // await client.token.deleteMany({
+  //   where: {
+  //     userId: tokenFound.userId
+  //   }
+  // });
   res.json({ ok: true });
 }
 
-export default withApiSession(
-  withHandler({ methods: ['POST'], handler, isPrivate: false })
-);
+export default withApiSession(withHandler({ methods: ['POST'], handler }));
