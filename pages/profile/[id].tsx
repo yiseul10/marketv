@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Avatar } from '@components/avatar';
 import Layout from '@components/layout';
-import { cls } from '@libs/client/utils';
 import useUser from '@libs/client/useUser';
 import useSWR from 'swr';
 import { Review, User } from '@prisma/client';
@@ -38,12 +37,11 @@ const Profile: NextPage = () => {
         <div className='-mx-4 flex space-x-7 border-b px-4 pt-10 text-sm font-medium'>
           <Link href={`/profile/${user?.id}`} passHref>
             <button
-              className={cls(
-                'border-b-2 pb-2',
+              className={`${
                 menu === '리뷰'
                   ? 'border-stone-800'
                   : 'border-transparent hover:opacity-80'
-              )}
+              } border-b-2 pb-2`}
               onClick={onReviewClick}
             >
               리뷰
@@ -51,12 +49,11 @@ const Profile: NextPage = () => {
           </Link>
           <Link href={`/profile/sell`} passHref>
             <button
-              className={cls(
-                'border-b-2 pb-2',
+              className={`${
                 menu === '다른상품'
                   ? 'border-stone-800'
                   : 'border-transparent hover:opacity-80'
-              )}
+              } border-b-2 pb-2`}
               onClick={onListClick}
             >
               다른상품 보기
