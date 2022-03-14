@@ -18,11 +18,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   // 세션저장
   await req.session.save();
   // tokenFound 모두삭제
-  // await client.token.deleteMany({
-  //   where: {
-  //     userId: tokenFound.userId
-  //   }
-  // });
+  await client.token.deleteMany({
+    where: {
+      userId: tokenFound.userId
+    }
+  });
   res.json({ ok: true });
 }
 

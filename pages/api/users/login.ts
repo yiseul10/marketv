@@ -12,8 +12,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   } = req;
 
   if (!email) return res.status(400).json({ ok: false });
-  const payload = Math.floor(10000 + Math.random() * (10000 - 1) + 1) + '';
-  /* if (email) {
+  // const payload = Math.floor(10000 + Math.random() * (10000 - 1) + 1) + '';
+  const payload = 11718+''
+   if (email) {
     const token = await client.token.create({
       data: {
         payload,
