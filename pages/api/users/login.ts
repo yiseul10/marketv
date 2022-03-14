@@ -25,7 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
         }
       }
     });
- */
+ 
     /*     const sendEmail = await mail.send({
       from: 'yiseul10@gmail.com',
       to: 'yiseul10@gmail.com',
@@ -35,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     });
     console.log(sendEmail); */
 
-    /* if (email) {
+  /* if (email) {
     user = await client.user.findUnique({ where: { email } });
    if (!user) {
       console.log('not founded');
@@ -45,8 +45,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
           email
         }
       });
-    } */
-  }
+    } 
+  }*/
   return res.json({ ok: true });
 }
 
