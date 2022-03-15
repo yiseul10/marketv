@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import useMutation from '@libs/client/useMutation';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface EditProfile {
   email?: string;
@@ -21,6 +22,7 @@ interface EditResponse {
 }
 const Edit: NextPage = () => {
   const { user } = useUser();
+  const router = useRouter();
   const {
     register,
     setValue,
@@ -71,12 +73,14 @@ const Edit: NextPage = () => {
         name,
         avatarId: id
       });
+      router.push('/profile');
     } else {
       edit({
         email,
         phone,
         name
       });
+      router.push('/profile');
     }
   };
   useEffect(() => {

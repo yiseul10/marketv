@@ -38,9 +38,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   }
   if (req.method === 'GET') {
     const {
-      query: { id },
-      body,
-      session: { user }
+      query: { id }
     } = req;
     const chats = await client.message.findMany({
       where: {
