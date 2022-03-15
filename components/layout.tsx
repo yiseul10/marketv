@@ -23,7 +23,9 @@ export default function Layout({ title, text, back, children }: LayoutProps) {
       <Head>
         <title>마켓</title>
       </Head>
-      <Nav />
+      <div className='relative z-50'>
+        <Nav />
+      </div>
       <div className='w-full lg:pl-16'>
         <div
           className={`${
