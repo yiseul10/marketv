@@ -7,9 +7,8 @@ mail.setApiKey(process.env.SENDGRID_KEY!);
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const {
-    // session: { user },
     body: { email }
-  } = req;
+  } = req.body;
 
   if (!email) return res.status(400).json({ ok: false });
   const payload = Math.floor(10000 + Math.random() * (10000 - 1) + 1) + '';

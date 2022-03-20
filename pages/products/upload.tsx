@@ -44,6 +44,7 @@ const Upload: NextPage = () => {
 
   const onValid = async ({ name, price, desc }: Upload) => {
     if (loading) return;
+
     if (!pic) {
       return setError('requiredError', {
         message: '사진을 첨부해주세요.'
@@ -123,7 +124,6 @@ const Upload: NextPage = () => {
           <Input
             register={register('name', { required: true })}
             label='상품명'
-            name='title'
             type='text'
             required
           />
@@ -131,8 +131,7 @@ const Upload: NextPage = () => {
             register={register('price', { required: true })}
             label='판매가격'
             kind='price'
-            name='price'
-            type='text'
+            type='number'
             required
           />
           <TextArea

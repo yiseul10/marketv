@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     }
   });
   if (!tokenFound) return res.status(404).end();
-  // 토큰이 존재하면 그 토큰의 유저id를 req.session.user에 담음
+  // 토큰이 존재하면 그 토큰의 유저id를 session에 담음
   req.session.user = {
     id: tokenFound.userId
   };

@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import CircleBtn from '@components/circleBtn';
 import Items from '@components/items';
 import Layout from '@components/layout';
-import useUser from '@libs/client/useUser';
 import useSWR, { SWRConfig } from 'swr';
 import { Product } from '@prisma/client';
 import { useState } from 'react';
@@ -21,7 +20,6 @@ interface ProductType {
 }
 
 const Home: NextPage = () => {
-  const { user, isLoading } = useUser();
   const [pageIndex, setPageIndex] = useState(1);
   const { data } = useSWR<ProductType>(`/api/products?page=${pageIndex}`);
 
@@ -97,7 +95,14 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
-// `data`는 `fallback`에 있기 때문에 항상 사용할 수 있습니다.
+
+// 서버사이드로 데이터를 받아 그걸 캐시데이터의 초기상태로 준다.
+// SWRConfig는 fallback이라는 property로 캐시초기값을 설정한다.
+// 홈 컴포넌트가 /api/products?page=${pageIndex}를 키로 캐시데이터를 가져온다.
+// 그런데 페이지컴포넌트 안에서 초기값을 설정해줬기 때문에 이것은 서버에서 받아온 데이터
+// 서버사이드의 로딩화면을 안보여주면서 캐싱기능, 리로딩기능을 사용할 수 있는 방법이라 할 수 있다.
+// 초기로딩상태가 길어지기 때문에 데이터를 모두 받아와서 보여주는 게 맞는걸까? 🤔
+
 const Page: NextPage<{ products: LikeWith[]; pageCount: number }> = ({
   products,
   pageCount

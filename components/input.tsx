@@ -2,7 +2,7 @@ import type { UseFormRegisterReturn } from 'react-hook-form';
 
 interface Props {
   label?: string;
-  name: string;
+  name?: string;
   kind?: 'phone' | 'price' | 'text';
   type: string;
   minLength?: number;
@@ -34,7 +34,7 @@ export default function Input({
             required={required}
             {...register}
           />
-          <div className='pointer-events-none absolute right-0 flex items-center pr-3 text-stone-400'>
+          <div className='pointer-events-none absolute right-6 flex items-center pr-3 text-stone-400'>
             <span>원</span>
           </div>
         </div>

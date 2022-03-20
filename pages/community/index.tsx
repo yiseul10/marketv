@@ -4,8 +4,6 @@ import Layout from '@components/layout';
 import Link from 'next/link';
 import useSWR from 'swr';
 import { Post, User } from '@prisma/client';
-import useMutation from '@libs/client/useMutation';
-import posts from 'pages/api/posts';
 
 interface PostWith extends Post {
   user: User;
