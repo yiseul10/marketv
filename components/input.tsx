@@ -2,7 +2,7 @@ import type { UseFormRegisterReturn } from 'react-hook-form';
 
 interface Props {
   label?: string;
-  name?: string;
+  name: string;
   kind?: 'phone' | 'price' | 'text';
   type: string;
   minLength?: number;
