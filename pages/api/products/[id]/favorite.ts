@@ -23,7 +23,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       }
     });
   } else {
-    // create
     await client.favorite.create({
       data: {
         user: {

@@ -5,6 +5,7 @@ import Input from '@components/input';
 import { useEffect, useState } from 'react';
 import useMutation from '@libs/client/useMutation';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 type LoginForm = {
   email: string;
@@ -43,10 +44,16 @@ const Login: NextPage = () => {
 
   return (
     <div className='mx-auto mt-20 max-w-xl px-4 text-stone-800'>
+      <Head>
+        <title>마켓</title>
+      </Head>
       <h3 className='text-center text-3xl font-bold'>Market</h3>
-      <div className='space-y-8 pt-10'>
+      <div className='space-y-7 pt-14'>
         {data?.ok ? (
           <>
+            <span className='inline-flex items-center bg-green-300 px-2 text-xs font-medium tracking-wide'>
+              TEST &nbsp; | &nbsp;11718
+            </span>
             <form
               onSubmit={tokenSubmit(onTokenValid)}
               className='flex flex-col'
@@ -64,7 +71,10 @@ const Login: NextPage = () => {
         ) : (
           <>
             <div className='flex'>
-              <span className='text-xs'>로그인 &nbsp; | &nbsp;회원가입</span>
+              <span className='text-xs'>로그인</span>
+              <span className='mx-2 inline-flex items-center bg-green-300 px-2 text-xs font-medium tracking-wide'>
+                TEST &nbsp; | &nbsp;1111@gmail.com
+              </span>
             </div>
             <form onSubmit={handleSubmit(onValid)} className='flex flex-col'>
               <Input

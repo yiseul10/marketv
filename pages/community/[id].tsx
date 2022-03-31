@@ -71,7 +71,7 @@ const Board: NextPage = () => {
     if (replyLoading) return;
     reply(form);
   };
-  // 응답이 ok가 되면 폼을 리셋
+
   useEffect(() => {
     if (replyData && replyData.ok) {
       reset();
@@ -82,9 +82,6 @@ const Board: NextPage = () => {
   return (
     <Layout text='Q & A' back>
       <div className='flex-col'>
-        <span className='mx-4 inline-flex items-center bg-teal-300 px-2 text-xs font-medium'>
-          질문있어요
-        </span>
         <div className='flex cursor-pointer items-center space-x-3 border-b p-4'>
           <Avatar
             userAvatar={data?.post.user.avatar}
@@ -118,7 +115,7 @@ const Board: NextPage = () => {
                 <svg
                   className='h-4 w-4'
                   fill='none'
-                  stroke={data?.interesting ? 'orange' : 'currentColor'}
+                  stroke='currentColor'
                   viewBox='0 0 24 24'
                   xmlns='http://www.w3.org/2000/svg'
                 >

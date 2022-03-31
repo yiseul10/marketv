@@ -22,17 +22,20 @@ interface DetailProps {
 
 const Detail: NextPage = () => {
   const router = useRouter();
-  const { data, mutate: boundMutate } = useSWR<DetailProps>(
+  const {
+    data,
+    isValidating,
+    mutate: boundMutate
+  } = useSWR<DetailProps>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/favorite`);
   const [newChat] = useMutation(`api/chats/${router.query.id}`);
 
-  // 데이터가 없는 상태가 될 수 있기 때문에
   const onFavorite = () => {
     if (!data) return;
     boundMutate({ ...data, isLiked: !data.isLiked }, false);
-    // 데이터-유무 / 빈 객체를 넣어주어 body가 비어있는  post요청이 되도록
+    // 데이터-유무 / 빈 객체를 넣어주어 body가 비어있는 post요청이 되도록
     toggleFav({});
   };
 
@@ -47,12 +50,16 @@ const Detail: NextPage = () => {
     <Layout back>
       <div className='px-4'>
         <div className='relative pb-80'>
-          <Image
-            src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${data?.product.image}/public`}
-            className='object-scale-down'
-            alt='product image'
-            layout='fill'
-          />
+          {isValidating ? (
+            ''
+          ) : (
+            <Image
+              src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${data?.product.image}/public`}
+              className='object-scale-down'
+              alt='product image'
+              layout='fill'
+            />
+          )}
         </div>
         <div className='flex cursor-pointer border-b p-4 -mx-4'>
           <Link href={`/profile/${data?.product.id}`} passHref>
@@ -110,7 +117,7 @@ const Detail: NextPage = () => {
           {data?.similarItems.map(product => (
             <Link href={`/products/${product.id}`} passHref key={product.id}>
               <div className='cursor-pointer'>
-                <div className='relative pb-80'>
+                <div className='relative pb-64'>
                   <Image
                     src={`https://imagedelivery.net/dUPbaZcFtQ32zB4tsu9zTQ/${product.image}/public`}
                     className='object-scale-down'

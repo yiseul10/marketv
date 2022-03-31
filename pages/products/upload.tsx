@@ -15,6 +15,7 @@ interface Upload {
   price: number;
   desc: string;
   pic: FileList;
+  requiredError?: string;
 }
 interface UploadProduct {
   ok: boolean;
@@ -23,7 +24,13 @@ interface UploadProduct {
 
 const Upload: NextPage = () => {
   const router = useRouter();
-  const { register, handleSubmit, watch } = useForm<Upload>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors }
+  } = useForm<Upload>();
   const [product, { loading, data }] =
     useMutation<UploadProduct>('/api/products');
   const [picUpload, setPicUpload] = useState('');
@@ -37,6 +44,12 @@ const Upload: NextPage = () => {
 
   const onValid = async ({ name, price, desc }: Upload) => {
     if (loading) return;
+
+    if (!pic) {
+      return setError('requiredError', {
+        message: '사진을 첨부해주세요.'
+      });
+    }
     if (pic && pic.length > 0) {
       const { uploadURL } = await (await fetch(`/api/files`)).json();
       const form = new FormData();
@@ -75,7 +88,11 @@ const Upload: NextPage = () => {
               />
             </div>
           ) : (
-            <label className='flex h-48 w-full cursor-pointer items-center justify-center rounded-xl text-stone-500 hover:bg-stone-50 hover:outline-dotted  outline-offset-2 outline-stone-400 hover:text-stone-700'>
+            <label
+              className={`${
+                errors.requiredError ? 'border border-rose-500 flex-col' : ''
+              } flex h-48 w-full cursor-pointer items-center justify-center rounded-xl text-stone-500 hover:bg-stone-50 hover:outline-dotted  outline-offset-2 outline-stone-400 hover:text-stone-700`}
+            >
               <svg
                 className='h-16 w-16'
                 stroke='currentColor'
@@ -96,13 +113,17 @@ const Upload: NextPage = () => {
                 className='hidden'
                 type='file'
               />
+              {errors.requiredError ? (
+                <span className='text-xs text-rose-500'>
+                  {errors?.requiredError.message}
+                </span>
+              ) : null}
             </label>
           )}
 
           <Input
             register={register('name', { required: true })}
             label='상품명'
-            name='title'
             type='text'
             required
           />
@@ -110,8 +131,7 @@ const Upload: NextPage = () => {
             register={register('price', { required: true })}
             label='판매가격'
             kind='price'
-            name='price'
-            type='text'
+            type='number'
             required
           />
           <TextArea
@@ -120,6 +140,7 @@ const Upload: NextPage = () => {
             name='desc'
             required
           />
+
           <RoundedBtn text={loading ? 'upload...' : '파일올리기'} />
         </div>
       </form>

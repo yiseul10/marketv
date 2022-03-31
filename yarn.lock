@@ -171,10 +171,10 @@
   "resolved" "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86.tgz"
   "version" "3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86"
 
-"@prisma/engines@3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86":
-  "integrity" "sha512-LjRssaWu9w2SrXitofnutRIyURI7l0veQYIALz7uY4shygM9nMcK3omXcObRm7TAcw3Z+9ytfK1B+ySOsOesxQ=="
-  "resolved" "https://registry.npmjs.org/@prisma/engines/-/engines-3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86.tgz"
-  "version" "3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86"
+"@prisma/engines@3.11.0-42.e996df5d66a2314d1da15d31047f9777fc2fbdd9":
+  "integrity" "sha512-iTuvWAZCJ4MGig7ypyMAGHHASvj+s0+2fx/x7tVlWEvle81qvPFBVjVQYSbs5/jnjw5G5vjOYs9OmBzSEwkaTg=="
+  "resolved" "https://registry.npmjs.org/@prisma/engines/-/engines-3.11.0-42.e996df5d66a2314d1da15d31047f9777fc2fbdd9.tgz"
+  "version" "3.11.0-42.e996df5d66a2314d1da15d31047f9777fc2fbdd9"
 
 "@prisma/prisma-fmt-wasm@3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86":
   "integrity" "sha512-f0Srf2EasvBRKBlTUrqkW5hp889+SRrRkqu0MgcuTXlgHxVMj7DIo1JNylPb1y/HDwtjLWf6AL+sk+2R891SWA=="
@@ -2321,12 +2321,12 @@
   "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.5.1.tgz"
   "version" "2.5.1"
 
-"prisma@*", "prisma@^3.10.0":
-  "integrity" "sha512-dAld12vtwdz9Rz01nOjmnXe+vHana5PSog8t0XGgLemKsUVsaupYpr74AHaS3s78SaTS5s2HOghnJF+jn91ZrA=="
-  "resolved" "https://registry.npmjs.org/prisma/-/prisma-3.10.0.tgz"
-  "version" "3.10.0"
+"prisma@*", "prisma@^3.11.0-dev.54":
+  "integrity" "sha512-57wGuoF6nMqPETH8xMYgnMxCrjF+qg/4KicD/eScQOvgHyzoPiTOCmiHudAfsK7vW2t/xl46cO+WL4sBXphijw=="
+  "resolved" "https://registry.npmjs.org/prisma/-/prisma-3.11.0-dev.54.tgz"
+  "version" "3.11.0-dev.54"
   dependencies:
-    "@prisma/engines" "3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86"
+    "@prisma/engines" "3.11.0-42.e996df5d66a2314d1da15d31047f9777fc2fbdd9"
 
 "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="

@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import useMutation from '@libs/client/useMutation';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface EditProfile {
   email?: string;
@@ -21,6 +22,7 @@ interface EditResponse {
 }
 const Edit: NextPage = () => {
   const { user } = useUser();
+  const router = useRouter();
   const {
     register,
     setValue,
@@ -48,14 +50,14 @@ const Edit: NextPage = () => {
       });
     }
     if (avatar && avatar?.length > 0 && user?.email) {
-      // ask for CF URL
+      // 빈 URL 요청
       const cloudRequest = await fetch(`/api/files`);
       // 받아온 데이터를 구조분해
       const { uploadURL } = await cloudRequest.json();
       // form 생성
       const form = new FormData();
       form.append('file', avatar[0], user?.email);
-      // cf에서 전달받은 url
+      // req로 받는 result.id 확인
       const {
         result: { id }
       } = await (
@@ -71,12 +73,14 @@ const Edit: NextPage = () => {
         name,
         avatarId: id
       });
+      router.push('/profile');
     } else {
       edit({
         email,
         phone,
         name
       });
+      router.push('/profile');
     }
   };
   useEffect(() => {

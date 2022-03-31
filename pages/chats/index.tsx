@@ -19,16 +19,12 @@ const Chats: NextPage = () => {
   const { data } = useSWR<Chats>('/api/chats');
   return (
     <Layout title='문의'>
-      <div className='w-full flex-col divide-y-[1px]'>
+      <div className='w-full flex-col '>
         {/* user.id가 createdBy와 다를때만 보여준다. */}
         {data?.messages.map(message => (
-          <>
+          <div key={message.id} className='divide-y-[1px]'>
             {message.createdById !== user?.id ? (
-              <Link
-                href={`/chats/${message.productId}`}
-                key={message.id}
-                passHref
-              >
+              <Link href={`/chats/${message.productId}`} passHref>
                 <div className='flex cursor-pointer items-center space-x-3 p-4'>
                   <Avatar
                     userAvatar={message.createdBy.avatar}
@@ -38,7 +34,7 @@ const Chats: NextPage = () => {
                 </div>
               </Link>
             ) : null}
-          </>
+          </div>
         ))}
       </div>
     </Layout>

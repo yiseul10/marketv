@@ -1,4 +1,3 @@
-import { cls } from '@libs/client/utils';
 import Image from 'next/image';
 
 interface MessageProps {
@@ -18,10 +17,9 @@ export default function Messages({
 }: MessageProps) {
   return (
     <div
-      className={cls(
-        'flex items-start space-x-2',
-        reversed ? 'flex-row-reverse space-x-reverse' : ''
-      )}
+      className={`flex items-start space-x-2
+        ${reversed ? 'flex-row-reverse space-x-reverse' : ''}
+      `}
     >
       <div>
         {reversedAvatar ? (
