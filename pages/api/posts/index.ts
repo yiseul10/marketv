@@ -43,6 +43,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
         }
       }
     });
+    await res.unstable_revalidate('/community');
     res.json({
       ok: true,
       post

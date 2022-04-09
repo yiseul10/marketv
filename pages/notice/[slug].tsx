@@ -18,6 +18,14 @@ const Post: NextPage<{ notice: string; data: any }> = ({ notice, data }) => {
 };
 
 export function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: 'blocking'
+  };
+}
+
+/* // usual SSR
+export function getStaticPaths() {
   const files = readdirSync('./notice').map(file => {
     const [name, _] = file.split('.');
     // [slug] 오브젝트
@@ -28,6 +36,7 @@ export function getStaticPaths() {
     fallback: false
   };
 }
+ */
 
 export const getStaticProps: GetStaticProps = async ctx => {
   // readFileSync의 shortcut gray-matter로 파싱하기
