@@ -4,6 +4,7 @@ import Layout from '@components/layout';
 import Link from 'next/link';
 import useSWR from 'swr';
 import { Post, User } from '@prisma/client';
+import client from '@libs/server/client';
 
 interface PostWith extends Post {
   user: User;
@@ -17,13 +18,13 @@ interface Posts {
   posts: PostWith[];
 }
 
-const Community: NextPage = () => {
-  const { data, error } = useSWR<Posts>('/api/posts');
+const Community: NextPage<Posts> = ({ posts }) => {
+  // const { data, error } = useSWR<Posts>('/api/posts');
 
   return (
     <Layout title='게시판'>
       <div className='divide-y-[1px]'>
-        {data?.posts?.map(post => (
+        {posts?.map(post => (
           <Link key={post.id} href={`/community/${post.id}`} passHref>
             <a className='flex cursor-pointer flex-col items-start'>
               <span className='m-4 inline-flex items-center bg-teal-300 px-1 text-xs font-medium'>
@@ -37,7 +38,7 @@ const Community: NextPage = () => {
               </div>
               <div className='flex space-x-5 px-4 py-3 text-sm text-stone-600'>
                 <span className='flex items-center space-x-2'>
-                  {post._count.interest ? (
+                  {post._count?.interest ? (
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       className='h-4 w-4'
@@ -111,5 +112,15 @@ const Community: NextPage = () => {
     </Layout>
   );
 };
+
+export async function getStaticProps() {
+  const posts = await client.post.findMany({ include: { user: true } });
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts))
+    },
+    revalidate: 20
+  };
+}
 
 export default Community;
